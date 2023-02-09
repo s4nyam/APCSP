@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-# Lewis Howell 20/04/22
 
 # Imports
 from Board import Board
