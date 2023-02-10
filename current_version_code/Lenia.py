@@ -342,7 +342,7 @@ def handle_args(args:dict) -> None:
     Args:
         args (dict): CLI arguments from user
     """
-    print_welcome() # Welcome message
+    # print_welcome() # Welcome message
     
     args = validate_args(args) # Clean args
     if args == -1:
