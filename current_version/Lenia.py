@@ -277,7 +277,7 @@ def run_simulation(d_data:dict) -> None:
             outfile = d_data['outfile']
     except: pass
     print('Saving simulation as ./outputs/{}... (may take several minutes)'.format(outfile))
-    game_of_life.save_animation(outfile)
+    # game_of_life.save_animation(outfile)
     timestr = time.strftime("%Y%m%d-%H%M%S")
     lenia_board_state = game_of_life.save_recorded_board_state(timestr+".txt")
     return lenia_board_state
@@ -393,6 +393,7 @@ def print_welcome() -> None:
 def process_board_state(lenia_board_state):
     live_cell_count_in_each_frame = {}
     i = 0
+    sum = 0
     for board_state in lenia_board_state:
         i +=1
         board_state_dict = json.loads(board_state)
@@ -400,6 +401,8 @@ def process_board_state(lenia_board_state):
         board_arr = board_arr.flatten()
         board_arr_greater_than_zero = list(board_arr[board_arr > 0.5])
         live_cell_count_in_each_frame["frame"+str(i)] = len(board_arr_greater_than_zero)
+        sum += len(board_arr_greater_than_zero)
+    live_cell_count_in_each_frame["live_cells"] = sum
     print(live_cell_count_in_each_frame)
     exit(0)
 
