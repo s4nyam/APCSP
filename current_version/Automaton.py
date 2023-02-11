@@ -79,6 +79,7 @@ class Automaton(Growth_fn):
         self.fig, self.img = self.show_board() # Frames of animation
         
         self.anim = None # Store the animation
+        self.lenia_board_state = []
     
     def normalise_kernel(self) -> np.array:
         """Normalise the kernel such the values sum to 1. 
@@ -165,7 +166,7 @@ class Automaton(Growth_fn):
         
         # Update the board as per the growth function and timestep dT, clipping values to the range 0..1
         self.board = np.clip(self.board + self.dT * self.growth(neighbours), 0, 1)
-        
+        self.record_board_state()
         return self.board
         
     
@@ -330,3 +331,46 @@ class Automaton(Growth_fn):
         if save:
             print('Saving kernel and growth function info to', os.path.join(OUTPUT_PATH, 'kernel_info'))
             plt.savefig(os.path.join(OUTPUT_PATH, 'kernel_info.png') )
+
+
+    def record_board_state(self):
+       
+        d_board_state = {}
+
+        d_board_state['dt'] = self.dT
+        d_board_state['cmap'] = self.cmap
+
+        d_board_state['type'] = self.type
+        d_board_state['s1'] = self.s1
+        d_board_state['s2'] = self.s2
+        d_board_state['b1'] = self.b1
+        d_board_state['b2'] = self.b2
+        d_board_state['mu'] = self.mu
+        d_board_state['sigma'] = self.sigma
+
+        d_board_state['board'] = self.board
+        d_board_state['kernel'] = self.kernel
+
+        # d_board_state['board'] = np.array2string(self.board, precision=10, separator=',',suppress_small=False)
+        # d_board_state['kernel'] = np.array2string(self.board, precision=10, separator=',',suppress_small=False)
+   
+        json_dump = json.dumps(d_board_state, cls=NumpyArrayEncoder)
+        self.lenia_board_state.append(json_dump)
+
+
+
+    def save_recorded_board_state(self, filename):
+        fmt = os.path.splitext(filename)[1]
+        
+        try: # make outputs folder if not already exists
+            os.makedirs(DATA_PATH)
+        except FileExistsError: # directory already exists
+            pass
+        
+        if not fmt == '.txt':
+            raise Exception('ERROR: Must save as .txt')
+        
+        with open(os.path.join(DATA_PATH, filename), 'w') as fp: 
+           fp.write('\n'.join(self.lenia_board_state))
+        
+        return self.lenia_board_state

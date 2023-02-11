@@ -9,6 +9,7 @@ import argparse
 import numpy as np
 from matplotlib import pyplot as plt
 import json
+import time
 
 NUMERIC_ARGS = ['board_size', 'kernel_size', 'dt', 'frames', 'sigma', 'mu', 'seed']
 OPTIONAL_ARGS = ['board_size', 'kernel_size', 'dt', 'frames', 'sigma', 'mu', 'seed', 'b1', 'b2', 's1', 's2']
@@ -189,8 +190,8 @@ def demo_lenia(args:dict) -> None:
     if args['board_size'] == None: args['board_size'] = 64 
     if args['outfile'] == None: args['outfile'] = 'lenia.mp4' 
     
-    run_simulation(args)
-    return(0)
+    lenia_board_state = run_simulation(args)
+    return lenia_board_state
     
 def run_simulation(d_data:dict) -> None:
     """Run and save a simulation using the generalised Lenia framework for a given set of parameters
@@ -265,6 +266,8 @@ def run_simulation(d_data:dict) -> None:
     # Run the simulation and animate
     print('Running simulation... ')
     game_of_life = Automaton(board, kernel, growth_fn, dT=dt)
+    
+    # it calls update_convolution which call growth function 
     game_of_life.animate(frames)
     print('Simulation complete!')
 
@@ -275,29 +278,9 @@ def run_simulation(d_data:dict) -> None:
     except: pass
     print('Saving simulation as ./outputs/{}... (may take several minutes)'.format(outfile))
     game_of_life.save_animation(outfile)
-    print('Saving complete!')
-    
-    # Save to json
-    try: 
-        if d_data['json'] != None: 
-            print('Saving results as ./datafiles/{}... '.format(d_data['json']))
-            game_of_life.save_json(d_data['json'])
-    except: pass
-    
-    # Save a figure showing the kernel and growth funcion 
-    try:
-        if d_data['verbose'] == True:
-            
-            game_of_life.plot_kernel_info(save=True)
-            
-            print('Saving final board state as ./outputs/board.png')
-            plt.figure()
-            plt.imshow(game_of_life.board)
-            plt.savefig('./outputs/board.png')
-    except: pass
-    
-    print('Complete! :)') # END
-    return(0)
+    timestr = time.strftime("%Y%m%d-%H%M%S")
+    lenia_board_state = game_of_life.save_recorded_board_state(timestr+".txt")
+    return lenia_board_state
     
 def validate_args(args:dict) -> dict:
     """Check the arguments provided by the user are valid. Return arguments as correct type.
@@ -342,39 +325,38 @@ def handle_args(args:dict) -> None:
     Args:
         args (dict): CLI arguments from user
     """
-    print_welcome() # Welcome message
+    # print_welcome() # Welcome message
     
+    result = []
     args = validate_args(args) # Clean args
     if args == -1:
         exit(-1)
         
     elif args['list_demos']: # List the available demos
         print_demos()
-        exit(0)
         
     elif args['demo']: # Run a demo
         simulation_from_file(args)
-        exit(0)
         
     elif args['conway']: # Run conway demo
         demo_conway(args)
-        exit(0)
         
     elif args['smooth_life']: # Run smoothlife demo
         demo_smooth_life(args)
-        exit(0)
         
     elif args['lenia']: # Run lenia demo
-        demo_lenia(args)
-        exit(0)
+        result = demo_lenia(args)
         
     elif args['infile']: # Run simulation from file
         simulation_from_file(args)
-        exit(0)
     
     else: # Run simulation as defined by cli args
         run_simulation(args)
+
+    if not result:
         exit(0)
+    else:
+        return result
         
 def print_welcome() -> None:
     """Print a welcome message"""
@@ -405,6 +387,22 @@ def print_welcome() -> None:
     python3 Lenia.py -i ./datafiles/double_orbium.json -o destroyed_orbium.gif -m 0.11
 -------------------------------------------------------------------------------------------
           ''')
+    
+
+
+def process_board_state(lenia_board_state):
+    live_cell_count_in_each_frame = {}
+    i = 0
+    for board_state in lenia_board_state:
+        i +=1
+        board_state_dict = json.loads(board_state)
+        board_arr = np.array(board_state_dict['board'])
+        board_arr = board_arr.flatten()
+        board_arr_greater_than_zero = list(board_arr[board_arr > 0.5])
+        live_cell_count_in_each_frame["frame"+str(i)] = len(board_arr_greater_than_zero)
+    print(live_cell_count_in_each_frame)
+    exit(0)
+
     
 if __name__ == '__main__':
     
@@ -439,5 +437,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     config = vars(args)
     
-    handle_args(config) # Run main sequence
+    board_states = handle_args(config) # Run main sequence
+
+    process_board_state(board_states)
     
