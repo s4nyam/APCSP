@@ -12,7 +12,7 @@ Cellular automata have been used in a variety of fields, including computer scie
 
 Some random behavior generrated by fixing python3 Lenia.py --mu 0.49 --sigma 0.275
 
-![image](https://user-images.githubusercontent.com/13884479/218542051-56690871-5e04-4eec-ae51-d4bed6a9433e.png)
+![](https://github.com/s4nyam/APCSP/blob/main/current_version_code/outputs/output.gif)
 
 
 ### Projct Description
