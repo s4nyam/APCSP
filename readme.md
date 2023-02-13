@@ -10,6 +10,10 @@ Cellular automata have been used in a variety of fields, including computer scie
 "Lenia and Expanded Universe" by Chan, Bert Wang-Chak (2020) is a research paper that presents Lenia, an artificial life platform that simulates ecosystems of digital creatures. Lenia's ecosystem consists of simple, artificial organisms that can move, consume, grow, and reproduce. The paper explains how Lenia's system is designed to be scalable and flexible, allowing for the creation of a diverse range of organisms with varying abilities and behaviors. The authors also discuss the idea of an "expanded universe" for Lenia, in which multiple Lenia systems can be linked together to form a larger, interconnected ecosystem. The paper concludes by highlighting the potential applications and implications of Lenia as a tool for studying artificial life and evolution.
 
 
+Some random behavior generrated by fixing python3 Lenia.py --mu 0.49 --sigma 0.275
+
+<Video path of output>
+
 
 
 ### Projct Description
