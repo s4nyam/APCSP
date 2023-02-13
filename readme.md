@@ -15,14 +15,14 @@ Cellular automata have been used in a variety of fields, including computer scie
 ### Projct Description
 
 #### Introduction
-In the 1950s, Jon Von Neuman and his colleague Ulam proposed an idea of self-reproduction in machines using CA-like rules which were further formalized by Wolfram. Simple agents interact with their neighbors and decide whether they are going to stay alive, die or give birth to a new cell. This behavior is observed in 1-D CA and 2-D CA based on their geographical and temporal instantiation of cells. Each cell has two properties (at least) – Current state and Neighborhood. Mathematically,![image](https://user-images.githubusercontent.com/13884479/218535983-9528e0eb-3844-4176-8388-8988a59e3051.png)
+In the 1950s, Jon Von Neuman and his colleague Ulam proposed an idea of self-reproduction in machines using CA-like rules which were further formalized by Wolfram. Simple agents interact with their neighbors and decide whether they are going to stay alive, die or give birth to a new cell. This behavior is observed in 1-D CA and 2-D CA based on their geographical and temporal instantiation of cells. Each cell has two properties (at least) – Current state and Neighborhood. Mathematically,
 <img width="378" alt="image" src="https://user-images.githubusercontent.com/13884479/218536452-d99275de-7a55-4425-92e2-372e02123719.png">
 
-We target two models of Cellular Automata (CA) and investigate emergent dynamics by identifying metrics to measure such behavior. Further, by the implementation of CAs, we intend to propose updated rules that identify the next state of the CA. For example, in 2D CA, most of the behaviors are way boring. However, some sets of rules act as a magical sweet spot where life-like rules start to emerge, for example, GoL. ![image](https://user-images.githubusercontent.com/13884479/218536053-b2d832a3-21d3-4f06-bfa2-760d892d22cb.png)
+We target two models of Cellular Automata (CA) and investigate emergent dynamics by identifying metrics to measure such behavior. Further, by the implementation of CAs, we intend to propose updated rules that identify the next state of the CA. For example, in 2D CA, most of the behaviors are way boring. However, some sets of rules act as a magical sweet spot where life-like rules start to emerge, for example, GoL. 
 
 
 #### Research Question
-Can we find and measure long-term complex emerging behavior of rules in different CA models, for example, Multi-State CA, Continuous CA, or Neural CA?![image](https://user-images.githubusercontent.com/13884479/218536102-da6726af-9bc1-4d06-afc5-4ab19a5b6ba6.png)
+Can we find and measure long-term complex emerging behavior of rules in different CA models, for example, Multi-State CA, Continuous CA, or Neural CA?
 
 #### Objectives
 
@@ -31,7 +31,7 @@ Our primary and secondary objectives are:
 -	Secondary: Identifying and comparing other schemes for 
 	Measuring complexity 
 	Update rules
-![image](https://user-images.githubusercontent.com/13884479/218536175-89862f73-ac1f-4132-98d1-c2085255a7be.png)
+
 
 #### Literature Review
 CA has been studied widely and timely throughout. We particularly focus on producing long-term dynamics with different methods:
@@ -42,10 +42,10 @@ CA has been studied widely and timely throughout. We particularly focus on produ
 	Control the physical and chemical nature of the grid.
 
 -	The paper [2] proposes a new model HetCA, “heterogeneous cellular automata”, that is, the extension of CA to study open-ended evolution. The model diverges from classical cellular automata in three ways: firstly, cells have properties of decay and quiescence. Secondly, each cell contains its own transition function, also called the genome, which can evolve over time and be transferred to its neighbors, and thirdly, these genomic transition functions are represented in a parsimonious way. The outcome of the combination of these changes leads to the formation of an evolving ecosystem where different colonies of cells compete with one another.  The results showed that HetCA was capable of long-term phenotypic dynamics and sustained a high level of variance over long runs. Furthermore, the model displayed greater behavioral diversity than classical cellular automata, such as the Game of Life. 
-![image](https://user-images.githubusercontent.com/13884479/218536278-523fb17f-cf8c-476b-af59-5c93c2adfc44.png)
 
 
-The detailed workflow has been given in Figure (1) represented by Gantt Chart. The project has been identified with Main Tasks and the subtasks, with touch base with the supervisor for continuous inputs for successful completion of the project.![image](https://user-images.githubusercontent.com/13884479/218536378-a6279ce4-6660-49e9-813a-fe781a7d39af.png)
+
+The detailed workflow has been given in Figure (1) represented by Gantt Chart. The project has been identified with Main Tasks and the subtasks, with touch base with the supervisor for continuous inputs for successful completion of the project.
 
 <img width="454" alt="image" src="https://user-images.githubusercontent.com/13884479/218536541-ea413bb2-e614-42aa-bcdc-43e8b720d9d2.png">
 
@@ -53,7 +53,7 @@ The detailed workflow has been given in Figure (1) represented by Gantt Chart. T
 
 [2] Medernach, D., Kowaliw, T., Ryan, C., & Doursat, R. (2013, July). Long-term evolutionary dynamics in heterogeneous cellular automata. In Proceedings of the 15th annual conference on Genetic and evolutionary computation (pp. 231-238).
 
-![image](https://user-images.githubusercontent.com/13884479/218536566-17979ca9-b72d-45f2-bbc7-e65e986fec09.png)
+
 
 
 
