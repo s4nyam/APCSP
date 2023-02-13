@@ -31,18 +31,13 @@ Can we find and measure long-term complex emerging behavior of rules in differen
 
 Our primary and secondary objectives are:
 -	Primary: Measuring the long-term complexity with a known scheme of emerging behavior in CA. Also, to find updated rules that could predict the next state of the CA grid.
--	Secondary: Identifying and comparing other schemes for 
- - Measuring complexity 
- - Update rules
+-	Secondary: Identifying and comparing other schemes for 1. Measuring complexity 2. Update rules
 
 
 #### Literature Review
 CA has been studied widely and timely throughout. We particularly focus on producing long-term dynamics with different methods:
 
--	[1] A neural CA has been proposed. In this work, the authors really hope that the individual organisms that evolve within the environment may somehow learn the dynamics of interacting with each other. Each agent-like behavior in the environment has its own head, neural operation, and learning capability. This makes it possible to work like a colony where every individual is working for the colony and propagating itself. Authors emphasize the capabilities of the individuals in the environment to be self-healing, organizing, and learning underlying nature’s law and physical interpretations that make them open-ended. In short, contrary to the use of CA rules, general NN is embedded in cells that can together become a larger NN, where:
- - Cells can clone themselves. 
- - Communicate with each other.
- - Control the physical and chemical nature of the grid.
+-	[1] A neural CA has been proposed. In this work, the authors really hope that the individual organisms that evolve within the environment may somehow learn the dynamics of interacting with each other. Each agent-like behavior in the environment has its own head, neural operation, and learning capability. This makes it possible to work like a colony where every individual is working for the colony and propagating itself. Authors emphasize the capabilities of the individuals in the environment to be self-healing, organizing, and learning underlying nature’s law and physical interpretations that make them open-ended. In short, contrary to the use of CA rules, general NN is embedded in cells that can together become a larger NN, where: 1. Cells can clone themselves. 2. Communicate with each other. 3. Control the physical and chemical nature of the grid.
 
 -	The paper [2] proposes a new model HetCA, “heterogeneous cellular automata”, that is, the extension of CA to study open-ended evolution. The model diverges from classical cellular automata in three ways: firstly, cells have properties of decay and quiescence. Secondly, each cell contains its own transition function, also called the genome, which can evolve over time and be transferred to its neighbors, and thirdly, these genomic transition functions are represented in a parsimonious way. The outcome of the combination of these changes leads to the formation of an evolving ecosystem where different colonies of cells compete with one another.  The results showed that HetCA was capable of long-term phenotypic dynamics and sustained a high level of variance over long runs. Furthermore, the model displayed greater behavioral diversity than classical cellular automata, such as the Game of Life. 
 
