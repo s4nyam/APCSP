@@ -4,4 +4,5 @@ older versions/.DS_Store
 current_version/venv/
 current_version/outputs/
 current_version/datafiles/
+current_version/__pycache__/
 
