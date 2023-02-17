@@ -5,4 +5,5 @@ current_version/venv/
 current_version/outputs/
 current_version/datafiles/
 current_version/__pycache__/
-
+current_version/cellular_automata/__pycache__
+current_version/cellular_automata/venv/
