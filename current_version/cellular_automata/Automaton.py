@@ -41,7 +41,8 @@ class Automaton(Growth_fn):
                  kernel:object, 
                  growth_fn:object, 
                  dT:float=0.1, 
-                 cmap:str='viridis'
+                 cmap:str='viridis',
+                 kernel_type:str=""
                  ):
         """
         Args:
@@ -73,6 +74,8 @@ class Automaton(Growth_fn):
         
         self.anim = None # Store the animation
         self.lenia_board_state = []
+
+        self.kernel_type = kernel_type
     
     def normalise_kernel(self) -> np.array:
         """Normalise the kernel such the values sum to 1. 
@@ -323,5 +326,5 @@ class Automaton(Growth_fn):
         
         if save:
             print('Saving kernel and growth function info to', os.path.join(OUTPUT_PATH, 'kernel_info'))
-            plt.savefig(os.path.join(OUTPUT_PATH, 'kernel_info.png') )
+            plt.savefig(os.path.join(OUTPUT_PATH, 'kernel_info_'+self.kernel_type+'.png') )
 

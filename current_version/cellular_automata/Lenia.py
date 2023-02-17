@@ -14,8 +14,8 @@ warnings.simplefilter("ignore", UserWarning)
 board_initialisation = 'random'
 # zeros ones random sparse gaussian ring
 
-kernel_type = ''
-# square_kernel circular_kernel ring_kernel smooth_ring_kernel
+kernel_type = 'circular_kernel'
+# square_kernel circular_kernel ring_kernel smooth_ring_kernel kernel_shell
 
 sigma = 0.5
 mu = 0.25
@@ -103,7 +103,7 @@ class Lenia:
         
         # Run the simulation and animate
         # print('Running simulation... ')
-        handlerCA = Automaton(board, kernel, growth_fn, dT=dt)
+        handlerCA = Automaton(board, kernel, growth_fn, dT=dt,kernel_type=self.kernel_type)
 
         # it calls update_convolution which call growth function 
         handlerCA.animate(frames)
