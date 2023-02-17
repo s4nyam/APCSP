@@ -19,14 +19,13 @@ kernel_type = 'square_kernel'
 
 sigma = 0.5
 mu = 0.25
-
+dt = 0.1
 
 
 kernel = None
 board = None
 board_size = 64
 kernel_size = 16
-dt = 0.1
 frames = 100
 seed = None
 kernel_peaks = None
@@ -109,7 +108,7 @@ class Lenia:
         handlerCA.animate(frames)
         # print('Simulation complete!')
         # timestr = time.strftime("%Y%m%d%H%M%S")
-        outfile = 'output_'+str(board_initialisation)+"_"+str(kernel_type)+'.gif'   
+        outfile = 'output_'+str(board_initialisation)+"_"+str(kernel_type)+"_mu"+str(mu)+"_sigma"+str(sigma)+'.gif'   
         print('./outputs/{}...)'.format(outfile))
         handlerCA.save_animation(outfile)
         handlerCA.plot_kernel_info(save=True)
