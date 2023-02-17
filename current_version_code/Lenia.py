@@ -219,6 +219,7 @@ def run_simulation(d_data:dict) -> None:
     except: pass
         
     kernel = Kernel().kernel_shell(kernel_size, peaks=kernel_peaks) # Create kernel
+
     try: kernel = d_data['kernel'] # use kernel provided (if exists)
     except: pass  
     
@@ -264,6 +265,8 @@ def run_simulation(d_data:dict) -> None:
     
     # Run the simulation and animate
     print('Running simulation... ')
+    print(kernel)
+    print(kernel.shape)
     game_of_life = Automaton(board, kernel, growth_fn, dT=dt)
     game_of_life.animate(frames)
     print('Simulation complete!')
