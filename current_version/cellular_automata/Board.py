@@ -5,7 +5,7 @@
 
 import numpy as np
 import scipy.sparse
-from cellular_automata.Kernel import Kernel
+from Kernel import Kernel
 
 
 class Board(object):

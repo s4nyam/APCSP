@@ -12,9 +12,9 @@ import json
 import warnings
 warnings.filterwarnings("ignore", category=np.VisibleDeprecationWarning) 
 
-from cellular_automata.Board import Board
-from cellular_automata.Kernel import Kernel
-from cellular_automata.Growth_fn import Growth_fn
+from Board import Board
+from Kernel import Kernel
+from Growth_fn import Growth_fn
 
 MAX_FRAMES = 3000
 OUTPUT_PATH = './outputs'
@@ -61,17 +61,10 @@ class Automaton(Growth_fn):
         self.normalise_kernel() # Normalise the kernel 
         
         # Growth function parameters
-        self.b1 = growth_fn.b1
-        self.b2 = growth_fn.b2
-        self.s1 = growth_fn.s1
-        self.s2 = growth_fn.s2
+
         self.mu = growth_fn.mu
         self.sigma = growth_fn.sigma
-        self.type = growth_fn.type
-        if self.type == 'gaussian':
-            self.growth = self.growth_gaussian
-        elif self.type == 'bosco':
-            self.growth = self.growth_bosco
+        self.growth = self.growth_gaussian
         
         # The board state
         self.board = board.board
@@ -166,7 +159,7 @@ class Automaton(Growth_fn):
         
         # Update the board as per the growth function and timestep dT, clipping values to the range 0..1
         self.board = np.clip(self.board + self.dT * self.growth(neighbours), 0, 1)
-        self.record_board_state()
+
         return self.board
         
     
@@ -330,46 +323,5 @@ class Automaton(Growth_fn):
         
         if save:
             print('Saving kernel and growth function info to', os.path.join(OUTPUT_PATH, 'kernel_info'))
-            plt.savefig(os.path.join(OUTPUT_PATH, 'kernel_info.png') )
+            plt.savefig(os.path.join(OUTPUT_PATH, 'kernel_info'+str(self.kernel)+'.png') )
 
-
-    def record_board_state(self):
-
-       
-        d_board_state = {}
-
-        d_board_state['dt'] = self.dT
-        d_board_state['cmap'] = self.cmap
-
-        d_board_state['type'] = self.type
-        d_board_state['s1'] = self.s1
-        d_board_state['s2'] = self.s2
-        d_board_state['b1'] = self.b1
-        d_board_state['b2'] = self.b2
-        d_board_state['mu'] = self.mu
-        d_board_state['sigma'] = self.sigma
-
-        d_board_state['board'] = self.board
-        d_board_state['kernel'] = self.kernel
-
-   
-        json_dump = json.dumps(d_board_state, cls=NumpyArrayEncoder)
-        self.lenia_board_state.append(json_dump)
-
-
-
-    def save_recorded_board_state(self, filename):
-        fmt = os.path.splitext(filename)[1]
-        
-        try: # make outputs folder if not already exists
-            os.makedirs(DATA_PATH)
-        except FileExistsError: # directory already exists
-            pass
-        
-        if not fmt == '.txt':
-            raise Exception('ERROR: Must save as .txt')
-        
-        with open(os.path.join(DATA_PATH, filename), 'w') as fp: 
-           fp.write('\n'.join(self.lenia_board_state))
-        
-        return self.lenia_board_state
