@@ -14,12 +14,11 @@ warnings.simplefilter("ignore", UserWarning)
 board_initialisation = 'random'
 # zeros ones random sparse gaussian ring
 
-kernel_type = 'square_kernel'
+kernel_type = 'hello_bitch'
 # square_kernel circular_kernel ring_kernel smooth_ring_kernel
 
 sigma = 0.5
 mu = 0.25
-
 
 
 kernel = None
@@ -63,12 +62,16 @@ class Lenia:
             
         # if(self.kernel == None): 
         # else: kernel = self.kernel
-
-        if(self.kernel_type == 'square_kernel'): kernel = Kernel().square_kernel(kernel_size, peaks=kernel_peaks) # Create kernel
-        elif(self.kernel_type == 'circular_kernel'): kernel = Kernel().circular_kernel(kernel_size, peaks=kernel_peaks) # Create kernel
-        elif(self.kernel_type == 'ring_kernel'): kernel = Kernel().ring_kernel(kernel_size, peaks=kernel_peaks) # Create kernel
-        elif(self.kernel_type == 'smooth_ring_kernel'): kernel = Kernel().smooth_ring_kernel(kernel_size, peaks=kernel_peaks) # Create kernel
-        else: kernel = Kernel().kernel_shell(kernel_size, peaks=kernel_peaks) # Create kernel
+        if(self.kernel == None):
+            if(self.kernel_type == 'square_kernel'): kernel = Kernel().square_kernel(3,1)
+            elif(self.kernel_type == 'circular_kernel'): kernel = Kernel().circular_kernel(kernel_size) # Create kernel
+            elif(self.kernel_type == 'ring_kernel'): kernel = Kernel().ring_kernel(kernel_size, kernel_size // 2) # Create kernel
+            elif(self.kernel_type == 'smooth_ring_kernel'): kernel = Kernel().smooth_ring_kernel(diameter=kernel_size) # Create kernel
+            else: 
+                print("HEREER")
+                kernel = Kernel().kernel_shell(kernel_size, peaks=kernel_peaks) # Create kernel
+        else:
+            kernel = self.kernel
    
         
         

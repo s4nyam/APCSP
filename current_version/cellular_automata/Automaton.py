@@ -323,5 +323,5 @@ class Automaton(Growth_fn):
         
         if save:
             print('Saving kernel and growth function info to', os.path.join(OUTPUT_PATH, 'kernel_info'))
-            plt.savefig(os.path.join(OUTPUT_PATH, 'kernel_info'+str(self.kernel)+'.png') )
+            plt.savefig(os.path.join(OUTPUT_PATH, 'kernel_info.png') )
 
