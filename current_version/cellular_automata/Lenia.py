@@ -19,13 +19,12 @@ kernel_type = 'hello_bitch'
 
 sigma = 0.5
 mu = 0.25
-
+dt = 0.1
 
 kernel = None
 board = None
 board_size = 64
 kernel_size = 16
-dt = 0.1
 frames = 100
 seed = None
 kernel_peaks = None
@@ -67,9 +66,7 @@ class Lenia:
             elif(self.kernel_type == 'circular_kernel'): kernel = Kernel().circular_kernel(kernel_size) # Create kernel
             elif(self.kernel_type == 'ring_kernel'): kernel = Kernel().ring_kernel(kernel_size, kernel_size // 2) # Create kernel
             elif(self.kernel_type == 'smooth_ring_kernel'): kernel = Kernel().smooth_ring_kernel(diameter=kernel_size) # Create kernel
-            else: 
-                print("HEREER")
-                kernel = Kernel().kernel_shell(kernel_size, peaks=kernel_peaks) # Create kernel
+            else: kernel = Kernel().kernel_shell(kernel_size, peaks=kernel_peaks) # Create kernel
         else:
             kernel = self.kernel
    
@@ -112,7 +109,7 @@ class Lenia:
         handlerCA.animate(frames)
         # print('Simulation complete!')
         # timestr = time.strftime("%Y%m%d%H%M%S")
-        outfile = 'output_'+str(board_initialisation)+"_"+str(kernel_type)+'.gif'   
+        outfile = 'output_'+str(board_initialisation)+"_"+str(kernel_type)+"_mu"+str(mu)+"_sigma"+str(sigma)+'.gif'   
         print('./outputs/{}...)'.format(outfile))
         handlerCA.save_animation(outfile)
         handlerCA.plot_kernel_info(save=True)
