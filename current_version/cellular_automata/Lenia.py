@@ -1,9 +1,9 @@
 
 # Imports
-from cellular_automata.Board import Board
-from cellular_automata.Kernel import Kernel
-from cellular_automata.Growth_fn import Growth_fn
-from cellular_automata.Automaton import Automaton
+from Board import Board
+from Kernel import Kernel
+from Growth_fn import Growth_fn
+from Automaton import Automaton
 
 import argparse
 import numpy as np
