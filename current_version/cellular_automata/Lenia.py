@@ -14,7 +14,7 @@ warnings.simplefilter("ignore", UserWarning)
 board_initialisation = 'random'
 # zeros ones random sparse gaussian ring
 
-kernel_type = 'hello_bitch'
+kernel_type = ''
 # square_kernel circular_kernel ring_kernel smooth_ring_kernel
 
 sigma = 0.5
