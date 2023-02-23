@@ -1,0 +1,4 @@
+Feb 24, update
+1.Visualise Kernel-> Done
+2. Mu and Sigma of kernel is taking default value which is 0.5 and 0.15
+3. Study paper and match the formula given in the code with paper. -> yet to do
