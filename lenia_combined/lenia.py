@@ -111,8 +111,6 @@ class Lenia:
         self.board = np.clip(self.board + self.dt * self.growth_function(neighbours), 0, 1)
         self.img.set_array(self.board) # render the updated state 
         return self.img,
-<<<<<<< Updated upstream
-=======
     
     
     def update_convolutional(self) -> np.array:
@@ -123,7 +121,6 @@ class Lenia:
         
         # Update the board as per the growth function and timestep dT, clipping values to the range 0..1
         self.board = np.clip(self.board + self.dt * self.growth_function(neighbours), 0, 1)
->>>>>>> Stashed changes
 
 
     def save_animation(self, 
