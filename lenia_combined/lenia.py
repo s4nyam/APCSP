@@ -84,15 +84,6 @@ class Lenia:
     def show_board(self, 
                    display:bool=False,
                    ):
-        """Create figure to display the board. 
-        Used to animate each frame during the simulation.
-
-        Args:
-            display (bool, optional): Show the figure
-
-        Returns:
-            tuple(plt.figure, plt.imshow): Figure and axes items for the board at timestate t.
-        """
         dpi = 50 # Using a higher dpi will result in higher quality graphics but will significantly affect computation
 
         self.fig = plt.figure(figsize=(10*np.shape(self.board)[1]/dpi, 10*np.shape(self.board)[0]/dpi), dpi=dpi)
@@ -120,6 +111,19 @@ class Lenia:
         self.board = np.clip(self.board + self.dt * self.growth_function(neighbours), 0, 1)
         self.img.set_array(self.board) # render the updated state 
         return self.img,
+<<<<<<< Updated upstream
+=======
+    
+    
+    def update_convolutional(self) -> np.array:
+        
+        # Calculate the neighbourhood sum by convolution with the kernel.
+        # Use periodic boundary conditions to 'wrap' the grid in the x and y dimensions
+        neighbours = scipy.signal.convolve2d(self.board, self.kernel, mode='same', boundary='wrap')
+        
+        # Update the board as per the growth function and timestep dT, clipping values to the range 0..1
+        self.board = np.clip(self.board + self.dt * self.growth_function(neighbours), 0, 1)
+>>>>>>> Stashed changes
 
 
     def save_animation(self, 
@@ -147,14 +151,7 @@ class Lenia:
 
     
     def normalise_kernel(self) -> np.array:
-        """Normalise the kernel such the values sum to 1. 
-        This makes generalisations much easier and ensures that the range of the neighbourhood sums is independent 
-        of the kernel used. 
-        Ensures the values of the growth function are robust to rescaling of the board/kernel. 
 
-        Returns:
-            np.array: The resulting normlised kernel
-        """
         kernel_norm = self.kernel / (1*np.sum(self.kernel))
         self.norm_factor = 1/ (1*np.sum(self.kernel))
         self.kernel = kernel_norm 
@@ -166,16 +163,7 @@ class Lenia:
                          bar:bool=False,
                          save:str=None,
                          ) -> None:
-        """Display the kernel, kernel cross-section, and growth function as a matplotlib figure.
 
-        Args:
-            kernel (np.array): The kernel to plot
-            growth_fn (object): The growth function used to update the board state
-            cmap (str, optional): The colourmap to use for plotting. Defaults to 'viridis'.
-                                (https://matplotlib.org/stable/tutorials/colors/colormaps.html)
-            bar (bool, optional): Plot the kernel x-section as a bar or line plot. Defaults to False.
-            save (str, optional): Save the figure
-        """
         
         k_xsection = self.kernel[self.kernel.shape[0] // 2, :]
         k_sum = np.sum(self.kernel)
