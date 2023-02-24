@@ -21,18 +21,13 @@ import json
 
 OUTPUT_PATH = './new_outputs'
 MAX_FRAMES = 3000
-# zeros ones random sparse gaussian ring
 
-kernel_type = 'circular_kernel'
-# square_kernel circular_kernel ring_kernel smooth_ring_kernel kernel_shell
 
 sigma = 0.1
 mu = 0.1
 dt = 0.1
 
 kernel_size = 16
-# kernel = None
-# board = None
 board_size = 64
 
 frames = 100
@@ -44,7 +39,6 @@ frame_intervals = float(50)
 
 class Lenia:
     def __init__(self):
-        self.kernel_type = kernel_type
         self.sigma = sigma
         self.mu = mu
         self.dt = dt
@@ -63,11 +57,6 @@ class Lenia:
         self.board = np.random.rand(self.board_size, self.board_size)
         self.cmap = 'viridis'
         self.fig, self.img = self.show_board()
-
-
-    
-    def initialise_board(self):
-        self.board = np.random.rand(self.grid_size, self.grid_size)
         
 
     def initalise_kernel(self, 
@@ -85,7 +74,6 @@ class Lenia:
         gaussian = lambda x, m, s: a*np.exp(-( (x-m)**2 / (2*s**2) ))
         self.kernel = (D<1) * gaussian(kr % 1, kernel_mu, kernel_sigma) * peak
         return self.kernel
-
         
 
     def growth_function(self, U:np.array):
@@ -122,46 +110,18 @@ class Lenia:
         return self.fig, self.img
     
     
-    
-    
-    
-    
     def animate(self):
         self.anim =  matplotlib.animation.FuncAnimation(self.fig, self.animate_step, 
                                             frames=self.frames, interval=self.frame_intervals, save_count=MAX_FRAMES, blit=True)
 
     
     def animate_step(self, i:int) -> plt.imshow:
-
-        self.update_convolutional()
+        neighbours = scipy.signal.convolve2d(self.board, self.kernel, mode='same', boundary='wrap')
+        self.board = np.clip(self.board + self.dt * self.growth_function(neighbours), 0, 1)
         self.img.set_array(self.board) # render the updated state 
         return self.img,
-    
-    
-    def update_convolutional(self) -> np.array:
-        """Update the board state using the convolution method to calculate the neighbourhood sum
-        
-        f(x,y,t+1) = g(k*f(x,y,t))
-        
-        where         
-        f(x,y,t) is the state at time t
-        k is the kernel (e.g. Extended Moore neighbourhood)
-        g is the growth function
-        n.b. the operator '*' represents the convolution operator
-        
-        Returns:
-            np.array: The updated board f(x,y,t+1)
-        """
-        
-        # Calculate the neighbourhood sum by convolution with the kernel.
-        # Use periodic boundary conditions to 'wrap' the grid in the x and y dimensions
-        neighbours = scipy.signal.convolve2d(self.board, self.kernel, mode='same', boundary='wrap')
-        
-        # Update the board as per the growth function and timestep dT, clipping values to the range 0..1
-        self.board = np.clip(self.board + self.dt * self.growth_function(neighbours), 0, 1)
 
-        return self.board
-    
+
     def save_animation(self, 
                        filename:str,
                        ):
@@ -241,20 +201,18 @@ class Lenia:
         if save:
             print('Saving kernel and growth function info to', os.path.join(OUTPUT_PATH, 'kernel_info'))
             print(str(datetime.now()))
-            plt.savefig(os.path.join(OUTPUT_PATH, str(datetime.now())+"_"+'kernel_info_'+self.kernel_type+'.png') )
+            plt.savefig(os.path.join(OUTPUT_PATH, str(datetime.now())+"_"+'kernel_info.png') )
 
 
     def run_simulation(self) -> None:
- 
-       
         self.animate()
-        outfile = 'output.gif'   
+        outfile = str(datetime.now())+'_output.gif'   
         print('./new_outputs/{}...)'.format(outfile))
         self.save_animation(outfile)
-        # self.plot_kernel_info(save=True)
+        self.plot_kernel_info(save=True)
 
 
-if __name__ == "__main__":
-    
+
+if __name__ == "__main__":  
     lenia = Lenia()
     lenia.run_simulation()
