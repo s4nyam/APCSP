@@ -57,7 +57,7 @@ class Lenia:
         self.kernel_size = kernel_size
         self.kernel_diameter = kernel_diameter
         self.kernel_peaks = kernel_peaks
-        self.kernel = self.initalise_kernel13(self.kernel_diameter, peaks=self.kernel_peaks)
+        self.kernel = self.initalise_kernel1(self.kernel_diameter, peaks=self.kernel_peaks)
         self.normalise_kernel()
         self.board_size = board_size
         self.frames = frames
@@ -74,7 +74,10 @@ class Lenia:
         
 
 
-    # KERNELS AND ITS TWEAKS
+    # KERNELS AND ITS TWEAKS - KERNELS BEGIN HERE
+    # KERNELS AND ITS TWEAKS - KERNELS BEGIN HERE
+    # KERNELS AND ITS TWEAKS - KERNELS BEGIN HERE
+    # KERNELS AND ITS TWEAKS - KERNELS BEGIN HERE
 
 
     # FLEXIBLITY TO CHANGE KERNEL
@@ -547,15 +550,31 @@ class Lenia:
 
 
 
+    # KERNELS AND ITS TWEAKS - KERNELS END HERE
+    # KERNELS AND ITS TWEAKS - KERNELS END HERE
+    # KERNELS AND ITS TWEAKS - KERNELS END HERE
+    # KERNELS AND ITS TWEAKS - KERNELS END HERE
+
+
 
 
 
     # FLEXIBLITY TO CHANGE GROWTH FUNCTION
-    def growth_function(self, U:np.array):
+    def growth_function1(self, U:np.array):
         gaussian = lambda x, m, s: np.exp(-( (x-m)**2 / (2*s**2) ))
         return gaussian(U, self.mu, self.sigma)*2-1
 
-        
+    # Dies very fast
+    def growth_function2(self, U:np.array):
+        k=0.5
+        return np.sin(U)*np.cos(U*k)
+        # This growth function takes in a numpy array U and returns a numpy array with the same shape as U. 
+        # The function applies a sine and cosine transformation to U, with the parameter self.k 
+        # controlling the frequency of the cosine component. 
+        # This growth function would produce a pattern of cells with oscillating values that change smoothly over time. 
+        # It could be used to simulate biological systems that exhibit rhythmic behaviors, 
+        # such as circadian rhythms or heartbeat patterns.
+
 
 
 
@@ -592,7 +611,7 @@ class Lenia:
     
     def animate_step(self, i:int) -> plt.imshow:
         neighbours = scipy.signal.convolve2d(self.board, self.kernel, mode='same', boundary='wrap')
-        self.board = np.clip(self.board + self.dt * self.growth_function(neighbours), 0, 1)
+        self.board = np.clip(self.board + self.dt * self.growth_function2(neighbours), 0, 1)
         self.img.set_array(self.board) # render the updated state 
         return self.img,
     
@@ -604,7 +623,7 @@ class Lenia:
         neighbours = scipy.signal.convolve2d(self.board, self.kernel, mode='same', boundary='wrap')
         
         # Update the board as per the growth function and timestep dT, clipping values to the range 0..1
-        self.board = np.clip(self.board + self.dt * self.growth_function(neighbours), 0, 1)
+        self.board = np.clip(self.board + self.dt * self.growth_function2(neighbours), 0, 1)
 
 
     def save_animation(self, 
@@ -665,7 +684,7 @@ class Lenia:
         # Growth function
         ax[2].title.set_text('Growth Function')
         x = np.linspace(0, k_sum, 1000)
-        ax[2].plot(x, self.growth_function(x))
+        ax[2].plot(x, self.growth_function2(x))
         
         if save:
             print('Saving kernel and growth function info to', os.path.join(OUTPUT_PATH, 'kernel_info'))
