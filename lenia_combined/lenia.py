@@ -35,7 +35,19 @@ seed = None
 kernel_peaks = np.array([1])
 kernel_diameter = 16
 frame_intervals = float(50)
-
+def rps_glider1(m, n):
+        pop = np.zeros([m, n], dtype = int)
+        pop[2, 2:7] = 1
+        pop[3, 2] = 1
+        pop[3, 3:6] = 2
+        pop[3, 6] = 1
+        pop[4, 2] = 1
+        pop[4, 3:6] = 2
+        pop[4, 6] = 1
+        pop[5, 2] = 1
+        pop[5, 3:6] = 2
+        pop[6, 2:5] = 1
+        return pop
 
 class Lenia:
     def __init__(self):
@@ -55,27 +67,245 @@ class Lenia:
         self.frame_intervals = frame_intervals
         self.anim = None
         self.board = np.random.rand(self.board_size, self.board_size)
+        # self.board = np.zeros((self.board_size, self.board_size))
+        # self.board[20,20] = 1
         self.cmap = 'viridis'
         self.fig, self.img = self.show_board()
         
 
+
+    # KERNELS AND ITS TWEAKS
+
+
+    # FLEXIBLITY TO CHANGE KERNEL
+    # def initalise_kernel(self, 
+    #                      diameter:int, 
+    #                  peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
+    #                  kernel_mu:float=0.5, 
+    #                  kernel_sigma:float=0.15, 
+    #                  a:float=4.0):
+
+    #     R = int(diameter / 2) + 1
+    #     D = np.linalg.norm(np.asarray(np.ogrid[-R:R-1, -R:R-1]) + 1) / R
+    #     k = len(peaks)
+    #     kr = k * D
+    #     peak = peaks[np.minimum(np.floor(kr).astype(int), k-1)]
+    #     gaussian = lambda x, m, s: a*np.exp(-( (x-m)**2 / (2*s**2) ))
+    #     self.kernel = (D<1) * gaussian(kr % 1, kernel_mu, kernel_sigma) * peak
+    #     # print(self.kernel.shape)
+    #     return self.kernel
+        
+
+    # # 24 feb 9 AM - concentric circle 
+    # # 24 feb 9 AM - concentric circle 
+    # # 24 feb 9 AM - concentric circle 
+    # # 24 feb 9 AM - concentric circle 
+        # [[3, 3, 3, 3, 3, 3, 3],
+        # [3, 2, 2, 2, 2, 2, 3],
+        # [3, 2, 1, 1, 1, 2, 3],
+        # [3, 2, 1, 0, 1, 2, 3],
+        # [3, 2, 1, 1, 1, 2, 3],
+        # [3, 2, 2, 2, 2, 2, 3],
+        # [3, 3, 3, 3, 3, 3, 3]]
+
+    # def initalise_kernel(self, 
+    #                      diameter:int, 
+    #                  peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
+    #                  kernel_mu:float=0.5, 
+    #                  kernel_sigma:float=0.15, 
+    #                  a:float=4.0):
+    #     diameter = 17
+    #     if diameter < 1:
+    #         return []
+
+    #     radius = diameter // 2
+    #     circle = [[0 for x in range(diameter)] for y in range(diameter)]
+
+    #     for y in range(diameter):
+    #         for x in range(diameter):
+    #             distance = ((x - radius) ** 2 + (y - radius) ** 2) ** 0.5
+    #             if distance <= radius:
+    #                 circle[y][x] = radius - int(distance)
+
+    #     return circle
+
+
+    # 24 feb 9:20 AM - Solid Circle
+    # 24 feb 9:20 AM - Solid Circle
+    # 24 feb 9:20 AM - Solid Circle
+    # 24 feb 9:20 AM - Solid Circle
+
+    # [[0, 0, 1, 1, 1, 0, 0],
+    #  [0, 1, 1, 1, 1, 1, 0],
+    #  [1, 1, 1, 1, 1, 1, 1],
+    #  [1, 1, 1, 1, 1, 1, 1],
+    #  [1, 1, 1, 1, 1, 1, 1],
+    #  [0, 1, 1, 1, 1, 1, 0],
+    #  [0, 0, 1, 1, 1, 0, 0]]
+
+    # def initalise_kernel(self, 
+    #                      diameter:int, 
+    #                  peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
+    #                  kernel_mu:float=0.5, 
+    #                  kernel_sigma:float=0.15, 
+    #                  a:float=4.0):
+    #     if diameter < 1:
+    #         return []
+    #     diameter = 17
+    #     radius = diameter // 2
+    #     circle = [[0 for x in range(diameter)] for y in range(diameter)]
+
+    #     for y in range(diameter):
+    #         for x in range(diameter):
+    #             distance = ((x - radius) ** 2 + (y - radius) ** 2) ** 0.5
+    #             if distance <= radius:
+    #                 circle[y][x] = diameter
+
+    #     return circle
+
+    # 24 feb 9:29 AM - Glider
+    # 24 feb 9:29 AM - Glider
+    # 24 feb 9:29 AM - Glider
+    # 24 feb 9:29 AM - Glider
+
+    # [[0, 0, 0, 0, 0, 0, 0],
+    # [0, 0, 1, 0, 0, 0, 0],
+    # [0, 0, 0, 1, 0, 0, 0],
+    # [0, 1, 1, 1, 0, 0, 0],
+    # [0, 0, 0, 0, 0, 0, 0],
+    # [0, 0, 0, 0, 0, 0, 0],
+    # [0, 0, 0, 0, 0, 0, 0]]
+
+    # def initalise_kernel(self, 
+    #                      diameter:int, 
+    #                  peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
+    #                  kernel_mu:float=0.5, 
+    #                  kernel_sigma:float=0.15, 
+    #                  a:float=4.0):
+    #     diameter = 13
+    #     if diameter < 3:
+    #         return []
+
+    #     # Initialize the grid with all cells set to 0
+    #     grid = [[0 for x in range(diameter)] for y in range(diameter)]
+
+    #     # Set the cells for the glider pattern
+    #     grid[1][2] = 1
+    #     grid[2][3] = 1
+    #     grid[3][1] = 1
+    #     grid[3][2] = 1
+    #     grid[3][3] = 1
+
+    #     return grid
+    
+    
+    # 24 feb 9:29 AM - Glider GUN
+    # 24 feb 9:29 AM - Glider GUN
+    # 24 feb 9:29 AM - Glider GUN
+    # 24 feb 9:29 AM - Glider GUN
+    # 24 feb 9:29 AM - Glider GUN
+    # def initalise_kernel(self, 
+    #                      diameter:int, 
+    #                  peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
+    #                  kernel_mu:float=0.5, 
+    #                  kernel_sigma:float=0.15, 
+    #                  a:float=4.0):
+    #     m = 50
+    #     n = 50
+    #     pop = np.zeros([m, n], dtype = int)
+    #     pop[6, 2] = 1
+    #     pop[7, 2] = 2
+    #     pop[6, 3] = 2
+    #     pop[7, 3] = 1
+    #     pop[6:9, 12] = 2
+    #     pop[5, 13] = 2
+    #     pop[9, 13] = 1
+    #     pop[4, 14:16] = 2
+    #     pop[10, 14:16] = 2
+    #     pop[7, 16] = 1
+    #     pop[5, 17] = 1
+    #     pop[9, 17] = 2
+    #     pop[6, 18] = 1
+    #     pop[8, 18] = 2
+    #     pop[7, 18:20] = 1
+    #     pop[4:7, 22:24] = 1
+    #     pop[3, 24] = 1
+    #     pop[7, 24] = 2
+    #     pop[2:4, 26] = 1
+    #     pop[7:9, 26] = 2
+    #     pop[4, 36] = 1
+    #     pop[5, 36] = 2
+    #     pop[4, 37] = 2
+    #     pop[5, 37] = 1
+    #     return pop
+
+
+    # 24 feb 9:29 AM - Fixed central initialisation
+    # 24 feb 9:29 AM - Fixed central initialisation
+    # 24 feb 9:29 AM - Fixed central initialisation
+    # 24 feb 9:29 AM - Fixed central initialisation
+
+    # def initalise_kernel(self, 
+    #                      diameter:int, 
+    #                  peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
+    #                  kernel_mu:float=0.5, 
+    #                  kernel_sigma:float=0.15, 
+    #                  a:float=4.0):
+    #     m = 50
+    #     n = 50
+    #     pop = np.zeros([m, n], dtype = int)
+    #     midrow = m // 2
+    #     midcol = n // 2
+    #     pop[midrow - 3, midcol - 1] = 3
+    #     pop[midrow - 3, midcol + 1] = 3
+    #     pop[midrow - 1, (midcol - 1):(midcol + 2)] = 3
+    #     pop[midrow + 1, (midcol - 1):(midcol + 2)] = 3
+    #     pop[midrow + 3, midcol:(midcol + 2)] = 3
+    #     return pop
+
+    # def initalise_kernel(self, 
+    #                      diameter:int, 
+    #                  peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
+    #                  kernel_mu:float=0.5, 
+    #                  kernel_sigma:float=0.15, 
+    #                  a:float=4.0):
+    #     dim = [50,50]
+    #     fixed1 = 1
+    #     fixed2 = 2
+    #     seed = 10
+    #     np.random.seed(seed)
+    #     pop = np.zeros((dim[0],dim[1]))
+    #     pop[0, :] = fixed1
+    #     pop[dim[0] - 1, :] = fixed1
+    #     pop[:, 0] = fixed1
+    #     pop[:, dim[1] - 1] = fixed1
+        
+    #     pop[1, :] = fixed2
+    #     pop[dim[0] - 2, :] = fixed2
+    #     pop[:, 1] = fixed2
+    #     pop[:, dim[1] - 2] = fixed2
+
+    #     return pop
+        
+    
+    
     def initalise_kernel(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
                      kernel_sigma:float=0.15, 
                      a:float=4.0):
+        m = 50
+        n = 50
+        pop = np.zeros([m, n], dtype = int)
+        midrow = m // 2 - 5
+        midcol = n // 2 - 5
+        pop[midrow:(midrow + 10), midcol:(midcol + 10)] = rps_glider1(10, 10)
+        return pop
 
-        R = int(diameter / 2) + 1
-        D = np.linalg.norm(np.asarray(np.ogrid[-R:R-1, -R:R-1]) + 1) / R
-        k = len(peaks)
-        kr = k * D
-        peak = peaks[np.minimum(np.floor(kr).astype(int), k-1)]
-        gaussian = lambda x, m, s: a*np.exp(-( (x-m)**2 / (2*s**2) ))
-        self.kernel = (D<1) * gaussian(kr % 1, kernel_mu, kernel_sigma) * peak
-        return self.kernel
-        
 
+
+    # FLEXIBLITY TO CHANGE GROWTH FUNCTION
     def growth_function(self, U:np.array):
         gaussian = lambda x, m, s: np.exp(-( (x-m)**2 / (2*s**2) ))
         return gaussian(U, self.mu, self.sigma)*2-1
