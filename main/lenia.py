@@ -574,6 +574,35 @@ class Lenia:
         # This growth function would produce a pattern of cells with oscillating values that change smoothly over time. 
         # It could be used to simulate biological systems that exhibit rhythmic behaviors, 
         # such as circadian rhythms or heartbeat patterns.
+    def growth_function3(self, U:np.array):
+        k = np.random.uniform(low=0.1, high=0.5, size=U.shape)
+        g1 = np.exp(-((U-0.2)**2)/k**2)
+        g2 = np.exp(-((U-0.8)**2)/k**2)
+        phi = 2
+        return (g1+g2)*np.log10(phi*U)        
+    
+
+    def growth_function4(self, U:np.array):
+        log = lambda x, a: np.log(x+a)
+        return log(U, 1.0)
+    
+    
+    def growth_function6(self, U:np.array):
+        k=0.5
+        return np.sin(U)*(1/np.log(U*k))
+
+    def growth_function5(self, U: np.array):
+        exponent = lambda x, a, b, c, d: np.exp(-np.power(a * x - b, 2)) * np.cos(c * x + d)
+        return exponent(U, 0.08, 0.2, 10, 0.9)
+
+
+   
+
+
+
+
+   
+
 
 
 
@@ -611,7 +640,7 @@ class Lenia:
     
     def animate_step(self, i:int) -> plt.imshow:
         neighbours = scipy.signal.convolve2d(self.board, self.kernel, mode='same', boundary='wrap')
-        self.board = np.clip(self.board + self.dt * self.growth_function2(neighbours), 0, 1)
+        self.board = np.clip(self.board + self.dt * self.growth_function5(neighbours), 0, 1)
         self.img.set_array(self.board) # render the updated state 
         return self.img,
     
@@ -623,7 +652,7 @@ class Lenia:
         neighbours = scipy.signal.convolve2d(self.board, self.kernel, mode='same', boundary='wrap')
         
         # Update the board as per the growth function and timestep dT, clipping values to the range 0..1
-        self.board = np.clip(self.board + self.dt * self.growth_function2(neighbours), 0, 1)
+        self.board = np.clip(self.board + self.dt * self.growth_function5(neighbours), 0, 1)
 
 
     def save_animation(self, 
@@ -684,7 +713,7 @@ class Lenia:
         # Growth function
         ax[2].title.set_text('Growth Function')
         x = np.linspace(0, k_sum, 1000)
-        ax[2].plot(x, self.growth_function2(x))
+        ax[2].plot(x, self.growth_function5(x))
         
         if save:
             print('Saving kernel and growth function info to', os.path.join(OUTPUT_PATH, 'kernel_info'))
