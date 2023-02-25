@@ -1,6 +1,6 @@
 
 # Imports
-
+# https://chakazul.github.io/Lenia/JavaScript/Lenia.html
 import numpy as np
 from matplotlib import pyplot as plt
 import time
@@ -22,15 +22,14 @@ import json
 OUTPUT_PATH = './new_outputs'
 MAX_FRAMES = 3000
 
-
-sigma = 0.1
-mu = 0.1
+mu = 0.35
+sigma = 0.059
 dt = 0.1
 
 kernel_size = 16
 board_size = 64
 
-frames = 100
+frames = 120
 seed = None
 kernel_peaks = np.array([1])
 kernel_diameter = 16
@@ -640,7 +639,7 @@ class Lenia:
     
     def animate_step(self, i:int) -> plt.imshow:
         neighbours = scipy.signal.convolve2d(self.board, self.kernel, mode='same', boundary='wrap')
-        self.board = np.clip(self.board + self.dt * self.growth_function5(neighbours), 0, 1)
+        self.board = np.clip(self.board + self.dt * self.growth_function1(neighbours), 0, 1)
         self.img.set_array(self.board) # render the updated state 
         return self.img,
     
@@ -652,7 +651,7 @@ class Lenia:
         neighbours = scipy.signal.convolve2d(self.board, self.kernel, mode='same', boundary='wrap')
         
         # Update the board as per the growth function and timestep dT, clipping values to the range 0..1
-        self.board = np.clip(self.board + self.dt * self.growth_function5(neighbours), 0, 1)
+        self.board = np.clip(self.board + self.dt * self.growth_function1(neighbours), 0, 1)
 
 
     def save_animation(self, 
@@ -713,7 +712,7 @@ class Lenia:
         # Growth function
         ax[2].title.set_text('Growth Function')
         x = np.linspace(0, k_sum, 1000)
-        ax[2].plot(x, self.growth_function5(x))
+        ax[2].plot(x, self.growth_function1(x))
         
         if save:
             print('Saving kernel and growth function info to', os.path.join(OUTPUT_PATH, 'kernel_info'))
