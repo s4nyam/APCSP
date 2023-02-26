@@ -11,12 +11,8 @@ Lenia10000 is a script for running combinations of mu ranging from 0.01 to 0.99 
 7. OUTPUT_PATH = './new_outputs'
 8. Kernel Base = spider_web_kernel(m=100,n=100) smoothing_factor = 0.5
 ```python 
-def spider_web_kernel(self, 
-                         diameter:int, 
-                     peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
-                     kernel_mu:float=0.5, 
-                     kernel_sigma:float=0.15, 
-                     a:float=4.0):
+def spider_web_kernel(self):
+        # Following code is not using              
         m=100
         n=100
         # create a grid with zeros
@@ -57,6 +53,8 @@ for i in range (100):
             lenia = Lenia(mu=i/100, sigma=j/100)
             lenia.run_simulation(filename="mu{}_sigma{}".format(i/100,j/100))
 ```
+
+Doing the math, we can understand that we have 100 values of mu from 0.01 to 0.99 and sigma 0.01 to 0.99 which makes a total of 100.100 = 10000 total combinations keeping rest of the configuration fixed. Remember we are talking about mu and sigma of Growth Function
 
 Link for some initial outputs for mu ranges from [0.01 to 0.3] and sigma[0.01 to 0.99]
 
