@@ -61,3 +61,7 @@ Doing the math, we can understand that we have 100 values of mu from 0.01 to 0.9
 Link for some initial outputs for mu ranges from [0.01 to 0.3] and sigma[0.01 to 0.99]
 
 
+Some outputs
+
+mu0.24 sigma0.18
+https://drive.google.com/file/d/1PjM_3Qgpg6k7LLgrjar28S8jecafPnRb/view?usp=share_link
