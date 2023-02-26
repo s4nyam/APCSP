@@ -56,7 +56,7 @@ class Lenia:
         self.kernel_size = kernel_size
         self.kernel_diameter = kernel_diameter
         self.kernel_peaks = kernel_peaks
-        self.kernel = self.initalise_kernel1(self.kernel_diameter, peaks=self.kernel_peaks)
+        self.kernel = self.concentric_circle_smooth(self.kernel_diameter, peaks=self.kernel_peaks)
         self.normalise_kernel()
         self.board_size = board_size
         self.frames = frames
@@ -80,7 +80,7 @@ class Lenia:
 
 
     # FLEXIBLITY TO CHANGE KERNEL
-    def initalise_kernel1(self, 
+    def circle_smooth(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
@@ -110,7 +110,7 @@ class Lenia:
         # [3, 2, 2, 2, 2, 2, 3],
         # [3, 3, 3, 3, 3, 3, 3]]
 
-    def initalise_kernel2(self, 
+    def concentric_circle_non_smootheened_kernel(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
@@ -145,7 +145,7 @@ class Lenia:
     #  [0, 1, 1, 1, 1, 1, 0],
     #  [0, 0, 1, 1, 1, 0, 0]]
 
-    def initalise_kernel3(self, 
+    def solid_circle_kernel(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
@@ -178,7 +178,7 @@ class Lenia:
     # [0, 0, 0, 0, 0, 0, 0],
     # [0, 0, 0, 0, 0, 0, 0]]
 
-    def initalise_kernel4(self, 
+    def glider_kernel(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
@@ -206,7 +206,7 @@ class Lenia:
     # 24 feb 9:29 AM - Glider GUN
     # 24 feb 9:29 AM - Glider GUN
     # 24 feb 9:29 AM - Glider GUN
-    def initalise_kernel5(self, 
+    def glider_gun_kernel(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
@@ -247,7 +247,7 @@ class Lenia:
     # 24 feb 9:29 AM - Fixed central initialisation
     # 24 feb 9:29 AM - Fixed central initialisation
 
-    def initalise_kernel6(self, 
+    def fixed_central_initialisation(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
@@ -265,7 +265,7 @@ class Lenia:
         pop[midrow + 3, midcol:(midcol + 2)] = 3
         return pop
 
-    def initalise_kernel7(self, 
+    def rps_glider1(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
@@ -290,7 +290,7 @@ class Lenia:
         return pop
         
 
-    def initalise_kernel8(self, 
+    def rps_glider2(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
@@ -306,7 +306,7 @@ class Lenia:
 
 
 
-    def initalise_kernel9(self, 
+    def concentric_sqaure_circle(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
@@ -336,7 +336,7 @@ class Lenia:
 
         return grid
 
-    def initalise_kernel10(self, 
+    def meshgrid_concentric_circle(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
@@ -380,7 +380,7 @@ class Lenia:
 
         return circle
 
-    def initalise_kernel11(self, 
+    def corner_circle_kernel(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
@@ -427,7 +427,7 @@ class Lenia:
 
         return arr
 
-    def initalise_kernel12(self, 
+    def mesh_circle_kernel(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
@@ -483,7 +483,7 @@ class Lenia:
         return arr
 
 
-    def initalise_kernel13(self, 
+    def labyrinth_kernel(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
@@ -516,15 +516,15 @@ class Lenia:
         return smoothed_labyrinth
 
 
-
-    def initalise_kernel13(self, 
+    # INTERESTING KERNEL
+    def spider_web_kernel(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
                      kernel_sigma:float=0.15, 
                      a:float=4.0):
-        m=50
-        n=50
+        m=100
+        n=100
         # create a grid with zeros
         grid = np.zeros((n, m))
         
@@ -539,12 +539,43 @@ class Lenia:
         distance = np.sqrt((x - center_x) ** 2 + (y - center_y) ** 2)
         
         # calculate the smoothing factor
-        smoothing_factor = 0.05
+        smoothing_factor = 0.5
         
         # calculate the values for each point
         grid = np.sin(distance * smoothing_factor) * distance
         
         return grid
+
+    # INTERESTING KERNEL
+    def concentric_circle_smooth(self, 
+                         diameter:int, 
+                     peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
+                     kernel_mu:float=0.5, 
+                     kernel_sigma:float=0.15, 
+                     a:float=4.0):
+        diameter=20
+        radius = diameter // 2
+        x, y = np.meshgrid(np.arange(-radius, radius+1), np.arange(-radius, radius+1))
+        distance = np.sqrt(x**2 + y**2)
+        mask = np.logical_and(distance <= radius, distance > radius-2)
+        smoothed_mask = np.zeros_like(mask, dtype=np.float)
+        smoothed_mask[mask] = (distance[mask] - (radius-2)) / 2
+        circle = np.zeros_like(x, dtype=np.float)
+        circle[mask] = 1
+        smoothed_circle = np.zeros_like(x, dtype=np.float)
+        smoothed_circle[mask] = circle[mask] * smoothed_mask[mask]
+        return smoothed_circle
+
+
+
+
+
+
+
+
+
+
+
 
 
 
