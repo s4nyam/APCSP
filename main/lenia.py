@@ -16,6 +16,7 @@ import os
 from datetime import datetime
 from json import JSONEncoder
 import json
+from pathlib import Path
 
 
 
@@ -685,23 +686,18 @@ class Lenia:
         self.board = np.clip(self.board + self.dt * self.growth_function1(neighbours), 0, 1)
 
 
-    def save_animation(self, 
+    def save_animation(self, dir, 
                        filename:str,
                        ):
         if not self.anim:
             raise Exception('ERROR: Run animation before attempting to save')
             return 
-        
+        output_path = OUTPUT_PATH+"/"+dir
+        Path(output_path).mkdir(parents=True, exist_ok=True)
         fmt = os.path.splitext(filename)[1] # isolate the file extension
         
-        try: # make outputs folder if not already exists
-            os.makedirs(OUTPUT_PATH)
-        except FileExistsError:
-            # directory already exists
-            pass
-
         if fmt == '.gif':
-            f = os.path.join(OUTPUT_PATH, filename) 
+            f = os.path.join(output_path, filename) 
             writer = matplotlib.animation.PillowWriter(fps=30) 
             self.anim.save(f, writer=writer)
         else:
@@ -718,6 +714,7 @@ class Lenia:
         
         
     def plot_kernel_info(self,
+                         dir,
                          cmap:str='viridis', 
                          bar:bool=False,
                          save:str=None,
@@ -746,17 +743,21 @@ class Lenia:
         ax[2].plot(x, self.growth_function1(x))
         
         if save:
-            print('Saving kernel and growth function info to', os.path.join(OUTPUT_PATH, 'kernel_info'))
-            print(str(datetime.now()))
-            plt.savefig(os.path.join(OUTPUT_PATH, str(datetime.now())+"_"+'kernel_info.png') )
+            output_path = OUTPUT_PATH+"/"+dir
+            Path(output_path).mkdir(parents=True, exist_ok=True)
+            print('Saving kernel and growth function info to', os.path.join(output_path, 'kernel_info'))
+            
+            plt.savefig(os.path.join(output_path, 'kernel_info.png') )
 
 
     def run_simulation(self) -> None:
         self.animate()
-        outfile = str(datetime.now())+'_output.gif'   
-        print('./new_outputs/{}...)'.format(outfile))
-        self.save_animation(outfile)
-        self.plot_kernel_info(save=True)
+        datetime_dir = str(datetime.now())
+        outfile = 'output.gif'   
+        print('./folder/{}...)'.format(datetime_dir))
+        
+        self.save_animation(datetime_dir, outfile)
+        self.plot_kernel_info(dir=datetime_dir, save=True)
 
 
 
