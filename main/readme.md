@@ -47,3 +47,12 @@
 
 16. Cornered Smpoothened with nothing in Centre Kernel
 ![image](https://user-images.githubusercontent.com/13884479/221363482-b21abaa4-171e-481f-bcfb-b8a3ae56af2a.png)
+
+17. Spider Web Kernel
+![image](https://user-images.githubusercontent.com/13884479/221385448-5893b6bc-aba9-476f-a3bd-f3688ff05ea1.png)
+
+18. Concentric Circle Smooth (Empty Inner Rings)
+![image](https://user-images.githubusercontent.com/13884479/221385465-8d2027b2-948e-4802-bcc0-c5fca63cf28d.png)
+
+
+12. Spherical Smoothened Kernel (Large)
