@@ -63,5 +63,7 @@ Link for some initial outputs for mu ranges from [0.01 to 0.3] and sigma[0.01 to
 Some results of mu and sigma worth visualising are:
 
 mu0.23_sigma0.8_output.gif
+
 mu0.22_sigma0.25_output.gif
+
 mu0.21_sigma0.26_output.gif
