@@ -59,3 +59,9 @@ for i in range (100):
 Doing the math, we can understand that we have 100 values of mu from 0.01 to 0.99 and sigma 0.01 to 0.99 which makes a total of 100.100 = 10000 total combinations keeping rest of the configuration fixed. Remember we are talking about mu and sigma of Growth Function
 
 Link for some initial outputs for mu ranges from [0.01 to 0.3] and sigma[0.01 to 0.99]
+
+Some results of mu and sigma worth visualising are:
+
+mu0.23_sigma0.8_output.gif
+mu0.22_sigma0.25_output.gif
+mu0.21_sigma0.26_output.gif
