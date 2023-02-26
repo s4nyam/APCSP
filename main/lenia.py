@@ -22,8 +22,8 @@ import json
 OUTPUT_PATH = './new_outputs'
 MAX_FRAMES = 3000
 
-mu = 0.35
-sigma = 0.059
+mu = 0.31
+sigma = 0.057
 dt = 0.1
 
 kernel_size = 16
@@ -56,7 +56,7 @@ class Lenia:
         self.kernel_size = kernel_size
         self.kernel_diameter = kernel_diameter
         self.kernel_peaks = kernel_peaks
-        self.kernel = self.concentric_circle_smooth(self.kernel_diameter, peaks=self.kernel_peaks)
+        self.kernel = self.spider_web_kernel(self.kernel_diameter, peaks=self.kernel_peaks)
         self.normalise_kernel()
         self.board_size = board_size
         self.frames = frames
