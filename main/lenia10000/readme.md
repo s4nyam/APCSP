@@ -64,4 +64,5 @@ Link for some initial outputs for mu ranges from [0.01 to 0.3] and sigma[0.01 to
 Some outputs
 
 mu0.24 sigma0.18
-https://drive.google.com/file/d/1PjM_3Qgpg6k7LLgrjar28S8jecafPnRb/view?usp=share_link
+!(https://drive.google.com/file/d/1PjM_3Qgpg6k7LLgrjar28S8jecafPnRb/view?usp=share_link)
+
