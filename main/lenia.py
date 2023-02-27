@@ -28,18 +28,18 @@ kernel_list = [
 #                  "solid_circle_kernel",
 #                  "glider_kernel",
 #                  "glider_gun_kernel",
-#                  "fixed_central_initialisation",
-#                  "rps_glider1",
+#                  "fixed_central_initialisation_kernel",
 #                  "rps_glider2",
 #                  "concentric_sqaure_circle",
 #                  "meshgrid_concentric_circle",
 #                  "corner_circle_kernel",
 #                  "mesh_circle_kernel",
 #                  "labyrinth_kernel",
-                 "spider_web_kernel",
-                #  "concentric_circle_smooth"
+#                   "spider_web_kernel",
+                    "concentric_circle_smooth"
                  ]
-growth_fn_list = ["growth_function1",
+growth_fn_list = [
+                    "growth_function1",
                     # "growth_function2",
                     # "growth_function3",
                     # "growth_function4",
@@ -92,8 +92,19 @@ class Lenia:
         
         self.frame_intervals = frame_intervals
         self.anim = None
-        self.board = np.random.rand(self.board_size, self.board_size)
-        # self.board[20,20] = 1
+        
+        
+        # For random initialisation
+        # self.board = np.random.rand(self.board_size, self.board_size)
+        
+        # For single pixel in center initialisation
+        # self.board = np.zeros((self.board_size, self.board_size))
+        
+        # For probabilistic initialisation
+        prob = 0.05
+        self.board = np.random.choice([0, 1], size=(self.board_size, self.board_size), p=[1-prob, prob])
+
+        self.board[self.board_size//2, self.board_size//2] = 1
         self.cmap = 'viridis'
         self.fig, self.img = self.show_board()
         
@@ -124,8 +135,8 @@ class Lenia:
             kernel = self.glider_kernel(self.kernel_diameter, peaks=self.kernel_peaks)
         elif kernel_variation == "glider_gun_kernel":
             kernel = self.glider_gun_kernel(self.kernel_diameter, peaks=self.kernel_peaks)
-        elif kernel_variation == "fixed_central_initialisation":
-            kernel = self.fixed_central_initialisation(self.kernel_diameter, peaks=self.kernel_peaks)
+        elif kernel_variation == "fixed_central_initialisation_kernel":
+            kernel = self.fixed_central_initialisation_kernel(self.kernel_diameter, peaks=self.kernel_peaks)
         elif kernel_variation == "rps_glider1":
             kernel = self.rps_glider1(self.kernel_diameter, peaks=self.kernel_peaks)
         elif kernel_variation == "rps_glider2":
@@ -320,7 +331,7 @@ class Lenia:
     # 24 feb 9:29 AM - Fixed central initialisation
     # 24 feb 9:29 AM - Fixed central initialisation
 
-    def fixed_central_initialisation(self, 
+    def fixed_central_initialisation_kernel(self, 
                          diameter:int, 
                      peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
                      kernel_mu:float=0.5, 
