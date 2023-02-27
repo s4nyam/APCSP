@@ -16,10 +16,37 @@ import os
 from datetime import datetime
 from json import JSONEncoder
 import json
+from pathlib import Path
+import itertools
 
 
 
-OUTPUT_PATH = './new_outputs'
+
+kernel_list = [
+#                  "circle_smooth",
+#                  "concentric_circle_non_smootheened_kernel",
+#                  "solid_circle_kernel",
+#                  "glider_kernel",
+#                  "glider_gun_kernel",
+#                  "fixed_central_initialisation",
+#                  "rps_glider1",
+#                  "rps_glider2",
+#                  "concentric_sqaure_circle",
+#                  "meshgrid_concentric_circle",
+#                  "corner_circle_kernel",
+#                  "mesh_circle_kernel",
+#                  "labyrinth_kernel",
+                 "spider_web_kernel",
+                #  "concentric_circle_smooth"
+                 ]
+growth_fn_list = ["growth_function1",
+                    # "growth_function2",
+                    # "growth_function3",
+                    # "growth_function4",
+                    # "growth_function5"
+                ]
+
+OUTPUT_PATH = './outputs'
 MAX_FRAMES = 3000
 
 mu = 0.31
@@ -49,29 +76,75 @@ def rps_glider1(m, n):
         return pop
 
 class Lenia:
-    def __init__(self):
+    def __init__(self, kernel_type, growthfn_type):
         self.sigma = sigma
         self.mu = mu
         self.dt = dt
         self.kernel_size = kernel_size
         self.kernel_diameter = kernel_diameter
         self.kernel_peaks = kernel_peaks
-        self.kernel = self.spider_web_kernel(self.kernel_diameter, peaks=self.kernel_peaks)
+        self.kernel = self.choose_kernel(kernel_type)
         self.normalise_kernel()
         self.board_size = board_size
         self.frames = frames
         self.seed = seed
-        
+        self.growth = self.choose_growth_function(growthfn_type)
         
         self.frame_intervals = frame_intervals
         self.anim = None
         self.board = np.random.rand(self.board_size, self.board_size)
-        # self.board = np.zeros((self.board_size, self.board_size))
         # self.board[20,20] = 1
         self.cmap = 'viridis'
         self.fig, self.img = self.show_board()
         
 
+
+    def choose_growth_function(self, growthfn_variation):
+        if growthfn_variation == "growth_function1":
+            growth_fn = self.growth_function1
+        elif growthfn_variation == "growth_function2":
+            growth_fn = self.growth_function2
+        elif growthfn_variation == "growth_function3":
+            growth_fn = self.growth_function3
+        elif growthfn_variation == "growth_function4":
+            growth_fn = self.growth_function4
+        elif growthfn_variation == "growth_function5":
+            growth_fn = self.growth_function5
+        return growth_fn
+    
+
+    def choose_kernel(self, kernel_variation):
+        if kernel_variation == "circle_smooth":
+            kernel = self.circle_smooth(self.kernel_diameter, peaks=self.kernel_peaks)
+        elif kernel_variation == "concentric_circle_non_smootheened_kernel":
+            kernel = self.concentric_circle_non_smootheened_kernel(self.kernel_diameter, peaks=self.kernel_peaks)
+        elif kernel_variation == "solid_circle_kernel":
+            kernel = self.solid_circle_kernel(self.kernel_diameter, peaks=self.kernel_peaks)
+        elif kernel_variation == "glider_kernel":
+            kernel = self.glider_kernel(self.kernel_diameter, peaks=self.kernel_peaks)
+        elif kernel_variation == "glider_gun_kernel":
+            kernel = self.glider_gun_kernel(self.kernel_diameter, peaks=self.kernel_peaks)
+        elif kernel_variation == "fixed_central_initialisation":
+            kernel = self.fixed_central_initialisation(self.kernel_diameter, peaks=self.kernel_peaks)
+        elif kernel_variation == "rps_glider1":
+            kernel = self.rps_glider1(self.kernel_diameter, peaks=self.kernel_peaks)
+        elif kernel_variation == "rps_glider2":
+            kernel = self.rps_glider2(self.kernel_diameter, peaks=self.kernel_peaks)
+        elif kernel_variation == "concentric_sqaure_circle":
+            kernel = self.concentric_sqaure_circle(self.kernel_diameter, peaks=self.kernel_peaks)
+        elif kernel_variation == "meshgrid_concentric_circle":
+            kernel = self.meshgrid_concentric_circle(self.kernel_diameter, peaks=self.kernel_peaks)
+        elif kernel_variation == "corner_circle_kernel":
+            kernel = self.corner_circle_kernel(self.kernel_diameter, peaks=self.kernel_peaks)
+        elif kernel_variation == "mesh_circle_kernel":
+            kernel = self.mesh_circle_kernel(self.kernel_diameter, peaks=self.kernel_peaks)
+        elif kernel_variation == "labyrinth_kernel":
+            kernel = self.labyrinth_kernel(self.kernel_diameter, peaks=self.kernel_peaks)
+        elif kernel_variation == "spider_web_kernel":
+            kernel = self.spider_web_kernel(self.kernel_diameter, peaks=self.kernel_peaks)
+        elif kernel_variation == "concentric_circle_smooth":
+            kernel = self.concentric_circle_smooth(self.kernel_diameter, peaks=self.kernel_peaks)
+        return kernel
 
     # KERNELS AND ITS TWEAKS - KERNELS BEGIN HERE
     # KERNELS AND ITS TWEAKS - KERNELS BEGIN HERE
@@ -670,7 +743,7 @@ class Lenia:
     
     def animate_step(self, i:int) -> plt.imshow:
         neighbours = scipy.signal.convolve2d(self.board, self.kernel, mode='same', boundary='wrap')
-        self.board = np.clip(self.board + self.dt * self.growth_function1(neighbours), 0, 1)
+        self.board = np.clip(self.board + self.dt * self.growth(neighbours), 0, 1)
         self.img.set_array(self.board) # render the updated state 
         return self.img,
     
@@ -682,26 +755,21 @@ class Lenia:
         neighbours = scipy.signal.convolve2d(self.board, self.kernel, mode='same', boundary='wrap')
         
         # Update the board as per the growth function and timestep dT, clipping values to the range 0..1
-        self.board = np.clip(self.board + self.dt * self.growth_function1(neighbours), 0, 1)
+        self.board = np.clip(self.board + self.dt * self.growth(neighbours), 0, 1)
 
 
-    def save_animation(self, 
+    def save_animation(self, dir, 
                        filename:str,
                        ):
         if not self.anim:
             raise Exception('ERROR: Run animation before attempting to save')
             return 
-        
+        output_path = OUTPUT_PATH+"/"+dir
+        Path(output_path).mkdir(parents=True, exist_ok=True)
         fmt = os.path.splitext(filename)[1] # isolate the file extension
         
-        try: # make outputs folder if not already exists
-            os.makedirs(OUTPUT_PATH)
-        except FileExistsError:
-            # directory already exists
-            pass
-
         if fmt == '.gif':
-            f = os.path.join(OUTPUT_PATH, filename) 
+            f = os.path.join(output_path, filename) 
             writer = matplotlib.animation.PillowWriter(fps=30) 
             self.anim.save(f, writer=writer)
         else:
@@ -718,6 +786,7 @@ class Lenia:
         
         
     def plot_kernel_info(self,
+                         dir,
                          cmap:str='viridis', 
                          bar:bool=False,
                          save:str=None,
@@ -743,23 +812,31 @@ class Lenia:
         # Growth function
         ax[2].title.set_text('Growth Function')
         x = np.linspace(0, k_sum, 1000)
-        ax[2].plot(x, self.growth_function1(x))
+        ax[2].plot(x, self.growth(x))
         
         if save:
-            print('Saving kernel and growth function info to', os.path.join(OUTPUT_PATH, 'kernel_info'))
-            print(str(datetime.now()))
-            plt.savefig(os.path.join(OUTPUT_PATH, str(datetime.now())+"_"+'kernel_info.png') )
+            output_path = OUTPUT_PATH+"/"+dir
+            Path(output_path).mkdir(parents=True, exist_ok=True)
+            print('Saving kernel and growth function info to', os.path.join(output_path, 'kernel_info'))
+            
+            plt.savefig(os.path.join(output_path, 'kernel_info.png') )
 
 
     def run_simulation(self) -> None:
         self.animate()
-        outfile = str(datetime.now())+'_output.gif'   
-        print('./new_outputs/{}...)'.format(outfile))
-        self.save_animation(outfile)
-        self.plot_kernel_info(save=True)
+        datetime_dir = str(datetime.now())
+        outfile = 'output.gif'   
+        print('./folder/{}...)'.format(datetime_dir))
+        
+        self.save_animation(datetime_dir, outfile)
+        self.plot_kernel_info(dir=datetime_dir, save=True)
 
 
 
 if __name__ == "__main__":  
-    lenia = Lenia()
-    lenia.run_simulation()
+    kernel_growthfn_combination = list(itertools.product(kernel_list, growth_fn_list, repeat=1))            
+    for kernel_growthfn in kernel_growthfn_combination:
+        print(kernel_growthfn[0])
+        print(kernel_growthfn[1])
+        lenia = Lenia(kernel_growthfn[0], kernel_growthfn[1])
+        lenia.run_simulation()
