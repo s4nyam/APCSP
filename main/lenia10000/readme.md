@@ -67,3 +67,6 @@ mu0.23_sigma0.8_output.gif
 mu0.22_sigma0.25_output.gif
 
 mu0.21_sigma0.26_output.gif
+
+![ezgif-5-d29a58bec2](https://user-images.githubusercontent.com/13884479/221667447-e37e117e-32b4-4dc5-a68f-38e81c8f63e3.gif)
+
