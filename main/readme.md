@@ -54,5 +54,3 @@
 18. Concentric Circle Smooth (Empty Inner Rings)
 ![image](https://user-images.githubusercontent.com/13884479/221385465-8d2027b2-948e-4802-bcc0-c5fca63cf28d.png)
 
-
-12. Spherical Smoothened Kernel (Large)
