@@ -35,8 +35,8 @@ kernel_list = [
 #                  "corner_circle_kernel",
 #                  "mesh_circle_kernel",
 #                  "labyrinth_kernel",
-#                   "spider_web_kernel",
-                    "concentric_circle_smooth"
+                  "spider_web_kernel",
+                    # "concentric_circle_smooth"
                  ]
 growth_fn_list = [
                     "growth_function1",
