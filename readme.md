@@ -65,4 +65,4 @@ The detailed workflow has been given in Figure (1) represented by Gantt Chart. T
 
 
 
-
+The project is part of the course in Applied Computer Science Project at Østfold University College (Norway), under the supervision of Stefano Nichele (nichele.eu)
