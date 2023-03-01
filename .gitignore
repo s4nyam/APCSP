@@ -11,3 +11,4 @@ venv/
 rest/current_version/lenia/__pycache__
 main/new_outputs/
 main/__pycache__/
+main/outputs/
