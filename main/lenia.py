@@ -246,7 +246,7 @@ class Lenia:
         
         self.save_animation(datetime_dir, outfile)
         self.plot_kernel_info(dir=datetime_dir, save=True)
-        return sum(self.lenia_board_state.values())
+        return self.lenia_board_state.values()
 
 
     def record_board_state(self, i):
@@ -255,8 +255,3 @@ class Lenia:
         self.lenia_board_state["frame_"+str(i)] = len(board_val_greater_than_point_five)
 
 
-if __name__ == "__main__":  
-    kernel = spider_web_kernel(diameter=kernel_diameter, peaks=kernel_peaks)
-    lenia = Lenia(kernel)           
-    data = lenia.run_simulation()
-    print(data)
