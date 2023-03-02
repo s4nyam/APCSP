@@ -34,19 +34,6 @@ seed = None
 kernel_peaks = np.array([1])
 kernel_diameter = 16
 frame_intervals = float(50)
-def rps_glider1(m, n):
-        pop = np.zeros([m, n], dtype = int)
-        pop[2, 2:7] = 1
-        pop[3, 2] = 1
-        pop[3, 3:6] = 2
-        pop[3, 6] = 1
-        pop[4, 2] = 1
-        pop[4, 3:6] = 2
-        pop[4, 6] = 1
-        pop[5, 2] = 1
-        pop[5, 3:6] = 2
-        pop[6, 2:5] = 1
-        return pop
 
 
 # INTERESTING KERNEL
