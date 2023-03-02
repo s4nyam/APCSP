@@ -55,7 +55,7 @@ The detailed workflow has been given in Figure (1) represented by Gantt Chart. T
 
 
 
-### References
+### Project Description References
 
 - Chan, Bert Wang-Chak (2020). Lenia and Expanded Universe. Artificial Life Conference Proceedings, (32), 221–229. arXiv:2005.03742.
 
@@ -64,5 +64,42 @@ The detailed workflow has been given in Figure (1) represented by Gantt Chart. T
 - Lenia LH Github repo - https://github.com/ljhowell/lenia-lh
 
 
+### Project Mid Term Report References + Suggested References
+
+[1.0] https://www.oreilly.com/radar/open-endedness-the-last-grand-challenge-youve-never-heard-of/
+
+[1.1] Long-term evolutionary dynamics in heterogeneous cellular automata. Medernach at al. (2013)
+
+[1.2] Visualizing computation in large-scale cellular automata https://arxiv.org/abs/2104.01008
+
+[2.0] Chan, Bert Wang-Chak. "Lenia: Biology of Artificial Life." https://chakazul.github.io/lenia.html (an example video here https://vimeo.com/440386996) 
+
+[2.1] https://arxiv.org/pdf/1812.05433.pdf
+
+[2.2] https://arxiv.org/pdf/2005.03742.pdf
+
+[2.3] https://developmentalsystems.org/sensorimotor-lenia/
+
+[2.4] https://sites.google.com/view/flowlenia/
+
+[2.5] https://google-research.github.io/self-organising-systems/particle-lenia/
+
+[3] https://dl.acm.org/doi/pdf/10.1145/2463372.2463395
+
+[4] https://arxiv.org/pdf/2104.01008.pdf
+
+[5] https://arxiv.org/pdf/1911.01086.pdf
+
+[6] https://www.cs.swarthmore.edu/~meeden/DevelopmentalRobotics/lehman_ecj11.pdf (this is long so please have only a brief look for now)
+
+[7] https://arxiv.org/pdf/2101.07627.pdf
+
+[8] https://www.youtube.com/watch?v=Rs5bly-HJOY
+
+[9] https://sebastianrisi.com/self_assembling_ai/
+
+
+
 
 ### The project is part of the course in Applied Computer Science Project at Østfold University College (Norway), under the supervision of Stefano Nichele (nichele.eu)
+
