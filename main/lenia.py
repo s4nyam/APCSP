@@ -26,97 +26,32 @@ mu = 0.31
 sigma = 0.057
 dt = 0.1
 
-kernel_size = 16
-board_size = 64
 
-frames = 120
+frames = 100
 seed = None
-kernel_peaks = np.array([1])
-kernel_diameter = 16
 frame_intervals = float(50)
 
 
-# INTERESTING KERNEL
-def spider_web_kernel( 
-                        diameter:int, 
-                    peaks:np.array(float)=np.array([1/2, 2/3, 1]), 
-                    kernel_mu:float=0.5, 
-                    kernel_sigma:float=0.15, 
-                    a:float=4.0):
-    m=100
-    n=100
-    # create a grid with zeros
-    grid = np.zeros((n, m))
-    
-    # calculate the center of the grid
-    center_x = n // 2
-    center_y = m // 2
-    
-    # create a meshgrid
-    x, y = np.meshgrid(np.arange(n), np.arange(m))
-    
-    # calculate the distance of each point from the center
-    distance = np.sqrt((x - center_x) ** 2 + (y - center_y) ** 2)
-    
-    # calculate the smoothing factor
-    smoothing_factor = 0.5
-    
-    # calculate the values for each point
-    grid = np.sin(distance * smoothing_factor) * distance
-    
-    return grid
-
 
 class Lenia:
-    def __init__(self, kernel):
+    def __init__(self, kernel, board):
         self.sigma = sigma
         self.mu = mu
         self.dt = dt
-        self.kernel_size = kernel_size
-        self.kernel_diameter = kernel_diameter
-        self.kernel_peaks = kernel_peaks
         self.kernel = kernel
         self.normalise_kernel()
-        self.board_size = board_size
         self.frames = frames
         self.seed = seed
-        
         self.frame_intervals = frame_intervals
         self.anim = None
         self.lenia_board_state = {}
-        
-        
         # For random initialisation
-        self.board = np.random.rand(self.board_size, self.board_size)
+        self.board = board
         
-        # For single pixel in center initialisation
-        # self.board = np.zeros((self.board_size, self.board_size))
-        
-        # For probabilistic initialisation
-        prob = 0.05
-        # self.board = np.random.choice([0, 1], size=(self.board_size, self.board_size), p=[1-prob, prob])
-
         # self.board[self.board_size//2, self.board_size//2] = 1
         self.cmap = 'viridis'
         self.fig, self.img = self.show_board()
         
-
-    # KERNELS AND ITS TWEAKS - KERNELS BEGIN HERE
-    # KERNELS AND ITS TWEAKS - KERNELS BEGIN HERE
-    # KERNELS AND ITS TWEAKS - KERNELS BEGIN HERE
-    # KERNELS AND ITS TWEAKS - KERNELS BEGIN HERE
-
-
-
-    
-
-
-    # KERNELS AND ITS TWEAKS - KERNELS END HERE
-    # KERNELS AND ITS TWEAKS - KERNELS END HERE
-    # KERNELS AND ITS TWEAKS - KERNELS END HERE
-    # KERNELS AND ITS TWEAKS - KERNELS END HERE
-
-
 
 
 
