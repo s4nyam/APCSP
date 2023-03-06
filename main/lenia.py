@@ -47,13 +47,9 @@ class Lenia:
         self.lenia_board_state = {}
         # For random initialisation
         self.board = board
-        
-        # self.board[self.board_size//2, self.board_size//2] = 1
         self.cmap = 'viridis'
         self.fig, self.img = self.show_board()
         
-
-
 
     # FLEXIBLITY TO CHANGE GROWTH FUNCTION
     def growth_function1(self, U:np.array):
@@ -90,7 +86,6 @@ class Lenia:
         neighbours = scipy.signal.convolve2d(self.board, self.kernel, mode='same', boundary='wrap')
         self.board = np.clip(self.board + self.dt * self.growth_function1(neighbours), 0, 1)
         if 45<=i<55:
-            # print("i: ", i)
             self.record_board_state(i)
         self.img.set_array(self.board) # render the updated state 
         return self.img,
