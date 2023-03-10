@@ -3,13 +3,15 @@ import numpy as np
 import shutil
 import os
 from lenia import Lenia
+import statistics
+from matplotlib import pyplot as plt
 
 
 kernel_size = 16
 board_size = 64
-mutation_rate = 0.01
-population_size = 20
-generation = 100
+mutation_rate = 0.1
+population_size = 10
+generation = 30
 
 def random_kernel_generator():
     grid = np.random.rand(kernel_size, kernel_size)
@@ -27,11 +29,18 @@ class Individual:
         self.genes = random_kernel_generator()
         self.fitness = 0
 
-    def calc_fitness(self, board):
+    def calc_fitness(self, board, gen):
         lenia = Lenia(self.genes, board)
-        board_alive_cell = lenia.run_simulation()
-        self.fitness = sum(board_alive_cell)
+        board_alive_cell = lenia.run_simulation("gen_"+str(gen))
+
+        self.fitness = statistics.pstdev(board_alive_cell.values())
+        self.plot_output(board_alive_cell, "outputs/"+str(gen))
         return self.fitness
+    
+    def plot_output(self, board_alive_cell, dir):
+        plt.bar(board_alive_cell.keys(), board_alive_cell.values(), width=.5, color='g')
+        plt.savefig(dir+'/hist.png')
+
 
 class Population:
     def __init__(self, size):
@@ -68,7 +77,7 @@ def run_ga(pop_size, generation):
         elite_individuals = []
         no_selected_mutated_ind = pop_size - 1
        
-        population.individuals.sort(key=lambda x: x.calc_fitness(population.board), reverse= True)
+        population.individuals.sort(key=lambda x: x.calc_fitness(population.board, gen), reverse= True)
          # calculate pop fitness and sort it
         elite_individuals.append(population.individuals[0])
         mutated_population = GeneticAlgorithm.mutate_population(population)
@@ -88,7 +97,6 @@ if __name__ == "__main__":
         shutil.rmtree('outputs')
     run_ga(population_size, generation)
   
-
 
 
 
