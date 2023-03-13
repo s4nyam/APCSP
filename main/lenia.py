@@ -83,8 +83,8 @@ class Lenia:
     def animate_step(self, i:int) -> plt.imshow:
         neighbours = scipy.signal.convolve2d(self.board, self.kernel, mode='same', boundary='wrap')
         self.board = np.clip(self.board + self.dt * self.growth_function1(neighbours), 0, 1)
-        if (i+1) % 10 == 0:
-            self.record_board_state(i)
+        # if (i+1) % 10 == 0:
+        self.record_board_state(i)
         self.img.set_array(self.board) # render the updated state 
         return self.img,
     
@@ -148,7 +148,7 @@ class Lenia:
         if save:
             output_path = OUTPUT_PATH+"/"+dir
             Path(output_path).mkdir(parents=True, exist_ok=True)
-            print('Saving kernel and growth function info to', os.path.join(output_path, 'kernel_info'))
+            # print('Saving kernel and growth function info to', os.path.join(output_path, 'kernel_info'))
             
             plt.savefig(os.path.join(output_path, 'kernel_info.png') )
 
@@ -157,7 +157,7 @@ class Lenia:
         self.animate()
         sub_dir = generation+"/"+str(datetime.now())
         outfile = 'output.gif'   
-        print('./folder/{}...)'.format(sub_dir))
+        # print('./folder/{}...)'.format(sub_dir))
         
         self.save_animation(sub_dir, outfile)
         self.plot_kernel_info(dir=sub_dir, save=True)
@@ -168,4 +168,3 @@ class Lenia:
         board_arr = self.board.flatten()
         board_val_greater_than_point_five = list(board_arr[board_arr > 0.5])
         self.lenia_board_state["frame_"+str(i+1)] = len(board_val_greater_than_point_five)
-
