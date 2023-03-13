@@ -2,19 +2,18 @@ import random
 import numpy as np
 import shutil
 import os
-from lenia import Lenia
+# from lenia import Lenia
 import statistics
 from matplotlib import pyplot as plt
 import sys
+import copy
 
 
-
-
-kernel_size = 3
+kernel_size = 16
 board_size = 64
 mutation_rate = 0.1
-population_size = 5
-generation = 5
+population_size = 3
+generation = 10
 gen_best_fitness = {}
 gen_average_fitness = {}
 each_gen_fitness = []
@@ -38,15 +37,9 @@ class Individual:
     def calc_fitness(self, board, gen):
         lenia = Lenia(self.genes, board)
         board_alive_cell = lenia.run_simulation("gen_"+str(gen))
-
         self.fitness = statistics.pstdev(board_alive_cell.values())
-        self.plot_output(board_alive_cell, "outputs/gen_"+str(gen))
         return self.fitness
     
-    def plot_output(self, board_alive_cell, dir):
-        plt.bar(board_alive_cell.keys(), board_alive_cell.values(), width=.5, color='g')
-        plt.savefig(dir+'/hist.png')
-
 
 class Population:
     def __init__(self, size):
@@ -59,28 +52,31 @@ class Population:
 class GeneticAlgorithm:
 
     @staticmethod
-    def mutate_population(population):
-        for i in range(len(population.individuals)):
-            population.individuals[i] = GeneticAlgorithm._mutate_individual(population.individuals[i])
-        return population
+    def mutate_individuals(individuals):
+        mutated_individuals = []
+        for ind in individuals:
+            mutated_ind = GeneticAlgorithm._mutate_individual(ind)
+            mutated_individuals.append(mutated_ind)
+        return mutated_individuals
 
     @staticmethod
-    def _mutate_individual(individual):
-        kernel = individual.genes
+    def _mutate_individual(ind):
+        kernel = ind.genes
         for i in range(kernel.shape[0]):
             for j in range(kernel.shape[1]):
                 if random.random() < mutation_rate:
                     kernel[i][j] = np.round(np.random.rand(), 3)
-        individual.genes = kernel
-        return individual
+        ind.genes = kernel
+        return ind
     
     @staticmethod
-    def select_roulette_wheel(pop, board, gen):
-        original_individuals = pop.individuals
+    def select_roulette_wheel(individuals, board, gen):
+        original_individuals = individuals
         individual_length = len(original_individuals)
         new_individuals = []
         total_sum = 0
-        total_sum = sum([(total_sum + ind.calc_fitness(board, gen)) for ind in pop.individuals])
+        total_sum = sum([(total_sum + ind.calc_fitness(board, gen)) for ind in individuals])
+        print("Mutated population fitness: ",  [ind.fitness for ind in individuals])
         random_num = random.randrange(0,int(round(total_sum)))
         partial_sum = 0
         while len(new_individuals) != individual_length - 1:
@@ -91,6 +87,8 @@ class GeneticAlgorithm:
                     total_sum = total_sum - c.fitness
                     original_individuals.remove(c)
                     break
+        
+        print("Roulette - Mutated population fitness: ",  [ind.fitness for ind in new_individuals])
         return new_individuals
         
 
@@ -99,76 +97,45 @@ def run_ga(pop_size, generation):
     population = Population(pop_size)
     board = population.board
     for gen in range(1, generation+1):
-        gen_fitness_dict = {}
         print("Generation: ", gen, " started")
+        gen_fitness_dict = {}
         elite_individuals = []
-        
         population.individuals.sort(key=lambda x: x.calc_fitness(board, gen), reverse= True)
         gen_best_fitness["gen_"+str(gen)] = population.individuals[0].fitness
         all_fitness = [ind.fitness for ind in population.individuals]
         gen_fitness_dict["gen_"+str(gen)] = all_fitness
-        each_gen_fitness.append[gen_fitness_dict]
+        print("Fitness of this generation: ", all_fitness)
+        each_gen_fitness.append(gen_fitness_dict)
         gen_average_fitness["gen_"+str(gen)] = sum(all_fitness)/len(all_fitness)
-        for ind in population.individuals:
-            print("--------gene--------")
-            print(ind.genes)
-            print("--Fitness--: ", ind.fitness)
-
-         # calculate pop fitness and sort it
-        elite_individuals.append(population.individuals[0])
-        for ind in elite_individuals:
-            print("--------Elite gene--------")
-            print(ind.genes)
-            print("--Elite Fitness--: ", ind.fitness)
-        mutated_population = GeneticAlgorithm.mutate_population(population)
-        for ind in mutated_population.individuals:
-            print("--------mutated gene--------")
-            print(ind.genes)
-            print("--mutated gene Fitness--: ", ind.fitness)
-        
-        selected_mutated_individuals = GeneticAlgorithm.select_roulette_wheel(mutated_population, board, gen)
+        elite_individuals.append(copy.deepcopy(population.individuals[0]))
+        mutated_individuals = GeneticAlgorithm.mutate_individuals(population.individuals)
+        selected_mutated_individuals = GeneticAlgorithm.select_roulette_wheel(mutated_individuals, board, gen)
         population.individuals = elite_individuals + selected_mutated_individuals
+        print("elite fitness: ", [ind.fitness for ind in elite_individuals])
+        print("selected mutated fitness: ", [ind.fitness for ind in selected_mutated_individuals])
+        print("Next generation fitness : ", [ind.fitness for ind in population.individuals])
         print("Generation ",gen, " completed")
         print("---------------------------")
         print("---------------------------")
 
-    # final_pop = population.individuals.sort(key=lambda x: x.calc_fitness(population.board), reverse= True)
-    # print("Final population sorted by fitness after generation: ", generation)
-    # for indi in final_pop.individuals:
-    #     print(final_pop)
-
     print("gen_best_fitness: ", gen_best_fitness)
+    plot_figures(gen_best_fitness, "gen_best_fitness.png")
     print("gen_average_fitness: ", gen_average_fitness)
+    plot_figures(gen_average_fitness, "gen_average_fitness.png")
+
+
+def plot_figures(data, name):
+    plt.clf()
+    labels = list(data.keys())
+    values = list(data.values())
+    plt.plot(labels, values)
+    plt.xlabel('Generation')
+    plt.ylabel('Fitness')
+    plt.title('Fitness of Generations')
+    plt.savefig(name) 
 
 if __name__ == "__main__":
     
     if os.path.exists('outputs'):
         shutil.rmtree('outputs')
     run_ga(population_size, generation)
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
