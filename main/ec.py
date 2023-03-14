@@ -2,7 +2,7 @@ import random
 import numpy as np
 import shutil
 import os
-# from lenia import Lenia
+from lenia import Lenia
 import statistics
 from matplotlib import pyplot as plt
 import sys
@@ -12,7 +12,7 @@ import copy
 kernel_size = 16
 board_size = 64
 mutation_rate = 0.1
-population_size = 3
+population_size = 5
 generation = 10
 gen_best_fitness = {}
 gen_average_fitness = {}
@@ -38,7 +38,8 @@ class Individual:
   def calc_fitness(self, board, gen):
     lenia = Lenia(self.genes, board)
     board_alive_cell = lenia.run_simulation("gen_"+str(gen))
-    self.fitness = statistics.pstdev(board_alive_cell.values())
+    every_10th_frames = dict(list(board_alive_cell.items())[9::10])
+    self.fitness = statistics.pstdev(every_10th_frames.values())
     return self.fitness
     
 
@@ -89,7 +90,7 @@ class GeneticAlgorithm:
                 original_individuals.remove(c)
                 break
     
-    print("Roulette - Mutated population fitness: ",  [ind.fitness for ind in new_individuals])
+    print("Roulette - Selected Mutated Population Fitness: ",  [ind.fitness for ind in new_individuals])
     return new_individuals
         
 
@@ -97,10 +98,10 @@ def run_ga(pop_size, generation):
   # sys.stdout = open('logs.txt','wt')
   population = Population(pop_size)
   board = population.board
+  population.individuals.sort(key=lambda x: x.calc_fitness(board=board, gen=1), reverse= True)
   for gen in range(1, generation+1):
       print("Generation: ", gen, " started")
       gen_fitness_dict = {}
-      population.individuals.sort(key=lambda x: x.calc_fitness(board, gen), reverse= True)
       gen_best_fitness["gen_"+str(gen)] = population.individuals[0].fitness
       all_fitness = [ind.fitness for ind in population.individuals]
       gen_fitness_dict["gen_"+str(gen)] = all_fitness
@@ -111,12 +112,12 @@ def run_ga(pop_size, generation):
       mutated_individuals = GeneticAlgorithm.mutate_individuals(population.individuals)
       selected_mutated_individuals = GeneticAlgorithm.select_roulette_wheel(mutated_individuals, board, gen)
       population.individuals = elite_individuals + selected_mutated_individuals
+      population.individuals.sort(key=lambda x: x.fitness, reverse= True)
       print("elite fitness: ", [ind.fitness for ind in elite_individuals])
-      print("selected mutated fitness: ", [ind.fitness for ind in selected_mutated_individuals])
       print("Next generation fitness : ", [ind.fitness for ind in population.individuals])
       print("Generation ",gen, " completed")
-      print("---------------------------")
-      print("---------------------------")
+      print("----------------------------------")
+      print("----------------------------------")
 
   print("gen_best_fitness: ", gen_best_fitness)
   plot_figures(gen_best_fitness, "gen_best_fitness.png")

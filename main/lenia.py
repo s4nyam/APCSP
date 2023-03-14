@@ -21,12 +21,9 @@ from pathlib import Path
 
 OUTPUT_PATH = './outputs'
 MAX_FRAMES = 3000
-
 mu = 0.31
 sigma = 0.057
 dt = 0.1
-
-
 frames = 100
 frame_intervals = float(50)
 
@@ -83,7 +80,6 @@ class Lenia:
     def animate_step(self, i:int) -> plt.imshow:
         neighbours = scipy.signal.convolve2d(self.board, self.kernel, mode='same', boundary='wrap')
         self.board = np.clip(self.board + self.dt * self.growth_function1(neighbours), 0, 1)
-        # if (i+1) % 10 == 0:
         self.record_board_state(i)
         self.img.set_array(self.board) # render the updated state 
         return self.img,
