@@ -21,14 +21,10 @@ from pathlib import Path
 
 OUTPUT_PATH = './outputs'
 MAX_FRAMES = 3000
-
 mu = 0.31
 sigma = 0.057
 dt = 0.1
-
-
 frames = 100
-seed = None
 frame_intervals = float(50)
 
 
@@ -41,7 +37,6 @@ class Lenia:
         self.kernel = kernel
         self.normalise_kernel()
         self.frames = frames
-        self.seed = seed
         self.frame_intervals = frame_intervals
         self.anim = None
         self.lenia_board_state = {}
@@ -85,8 +80,7 @@ class Lenia:
     def animate_step(self, i:int) -> plt.imshow:
         neighbours = scipy.signal.convolve2d(self.board, self.kernel, mode='same', boundary='wrap')
         self.board = np.clip(self.board + self.dt * self.growth_function1(neighbours), 0, 1)
-        if 45<=i<55:
-            self.record_board_state(i)
+        self.record_board_state(i)
         self.img.set_array(self.board) # render the updated state 
         return self.img,
     
@@ -107,7 +101,7 @@ class Lenia:
             self.anim.save(f, writer=writer)
         else:
             raise Exception('ERROR: Unknown save format. Must be .gif or .mp4')
-
+        # writer.close()
 
     
     def normalise_kernel(self) -> np.array:
@@ -150,25 +144,23 @@ class Lenia:
         if save:
             output_path = OUTPUT_PATH+"/"+dir
             Path(output_path).mkdir(parents=True, exist_ok=True)
-            print('Saving kernel and growth function info to', os.path.join(output_path, 'kernel_info'))
+            # print('Saving kernel and growth function info to', os.path.join(output_path, 'kernel_info'))
             
             plt.savefig(os.path.join(output_path, 'kernel_info.png') )
 
 
-    def run_simulation(self) -> None:
+    def run_simulation(self, generation) -> None:
         self.animate()
-        datetime_dir = str(datetime.now())
+        sub_dir = generation+"/"+str(datetime.now())
         outfile = 'output.gif'   
-        print('./folder/{}...)'.format(datetime_dir))
+        # print('./folder/{}...)'.format(sub_dir))
         
-        self.save_animation(datetime_dir, outfile)
-        self.plot_kernel_info(dir=datetime_dir, save=True)
-        return self.lenia_board_state.values()
+        self.save_animation(sub_dir, outfile)
+        self.plot_kernel_info(dir=sub_dir, save=True)
+        return self.lenia_board_state
 
 
     def record_board_state(self, i):
         board_arr = self.board.flatten()
         board_val_greater_than_point_five = list(board_arr[board_arr > 0.5])
-        self.lenia_board_state["frame_"+str(i)] = len(board_val_greater_than_point_five)
-
-
+        self.lenia_board_state["frame_"+str(i+1)] = len(board_val_greater_than_point_five)
