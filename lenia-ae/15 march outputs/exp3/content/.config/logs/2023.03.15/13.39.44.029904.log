@@ -1,8 +1,0 @@
-2023-03-15 13:39:44,031 DEBUG    root            Loaded Command Group: ['gcloud', 'config']
-2023-03-15 13:39:44,058 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'set']
-2023-03-15 13:39:44,060 DEBUG    root            Running [gcloud.config.set] with arguments: [SECTION/PROPERTY: "compute/gce_metadata_read_timeout_sec", VALUE: "0"]
-2023-03-15 13:39:44,061 INFO     ___FILE_ONLY___ Updated property [compute/gce_metadata_read_timeout_sec].
-
-2023-03-15 13:39:44,062 DEBUG    root            Chosen display Format:default
-2023-03-15 13:39:44,063 INFO     root            Display format: "default"
-2023-03-15 13:39:44,063 DEBUG    root            SDK update checks are disabled.
