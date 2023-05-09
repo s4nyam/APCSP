@@ -6,10 +6,6 @@ This project is submitted to HiØ, Norway under supervision of Stefano Nichele (
 
 An Evolutionary Computation EvoLenia run for 500 generations on default growth function and a handcrafted kernel shows a ring forming bacteria. Amazed by the robustness of Lenia behaviour, while mutating kernel variation based fitness. 
 
-![kernel_info](https://github.com/s4nyam/APCSP/assets/13884479/3ce102c8-8ae2-46a1-952b-3327d9bfdbeb)
-
-![output](https://github.com/s4nyam/APCSP/assets/13884479/fcc9190b-266b-444d-af40-4f8c20e28c04)
-
 ### Cellular Automata
 
 Cellular Automata (CA) is a mathematical model that is used to simulate the behavior of systems composed of a large number of simple, identical units called "cells." Each cell is assigned a state, which can be represented as a binary value (0 or 1), a color, or a number. The state of each cell evolves over time based on a set of rules that determine the new state of a cell based on the current state of itself and its neighboring cells. The rules are applied to all cells simultaneously, and the process is repeated in a time-stepping manner, resulting in the evolution of the entire system.
@@ -64,6 +60,10 @@ The detailed workflow has been given in Figure (1) represented by Gantt Chart. T
 [2] Medernach, D., Kowaliw, T., Ryan, C., & Doursat, R. (2013, July). Long-term evolutionary dynamics in heterogeneous cellular automata. In Proceedings of the 15th annual conference on Genetic and evolutionary computation (pp. 231-238).
 
 
+
+![kernel_info](https://github.com/s4nyam/APCSP/assets/13884479/3ce102c8-8ae2-46a1-952b-3327d9bfdbeb)
+
+![output](https://github.com/s4nyam/APCSP/assets/13884479/fcc9190b-266b-444d-af40-4f8c20e28c04)
 
 
 
