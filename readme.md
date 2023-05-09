@@ -1,3 +1,8 @@
+
+This project is submitted to HiØ, Norway under supervision of Stefano Nichele (https://nichele.eu)
+
+![image](https://user-images.githubusercontent.com/13884479/221710216-f7b85394-f94c-4614-889e-ff48452b1b8d.png)
+
 ### Cellular Automata
 
 Cellular Automata (CA) is a mathematical model that is used to simulate the behavior of systems composed of a large number of simple, identical units called "cells." Each cell is assigned a state, which can be represented as a binary value (0 or 1), a color, or a number. The state of each cell evolves over time based on a set of rules that determine the new state of a cell based on the current state of itself and its neighboring cells. The rules are applied to all cells simultaneously, and the process is repeated in a time-stepping manner, resulting in the evolution of the entire system.
