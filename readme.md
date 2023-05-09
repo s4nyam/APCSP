@@ -1,7 +1,14 @@
+# Capturing Emerging Complexity in Lenia
 
 This project is submitted to HiØ, Norway under supervision of Stefano Nichele (https://nichele.eu)
 
 ![image](https://user-images.githubusercontent.com/13884479/221710216-f7b85394-f94c-4614-889e-ff48452b1b8d.png)
+
+An Evolutionary Computation EvoLenia run for 500 generations on default growth function and a handcrafted kernel shows a ring forming bacteria. Amazed by the robustness of Lenia behaviour, while mutating kernel variation based fitness. 
+
+![kernel_info](https://github.com/s4nyam/APCSP/assets/13884479/3ce102c8-8ae2-46a1-952b-3327d9bfdbeb)
+
+![output](https://github.com/s4nyam/APCSP/assets/13884479/fcc9190b-266b-444d-af40-4f8c20e28c04)
 
 ### Cellular Automata
 
