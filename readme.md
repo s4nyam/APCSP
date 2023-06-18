@@ -115,3 +115,5 @@ The detailed workflow has been given in Figure (1) represented by Gantt Chart. T
 
 ### The project is part of the course in Applied Computer Science Project at Østfold University College (Norway), under the supervision of Stefano Nichele (nichele.eu)
 
+To use the code, there are three files, AE.ipynb, VoT.ipynb and AEVoT.ipynb. These three files contains respective fitness based Evolutionary Algorithm code. Each of the notebook is single click run all notebook.
+
